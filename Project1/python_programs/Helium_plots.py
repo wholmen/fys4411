@@ -1,6 +1,6 @@
 from pylab import *
 import os
-
+"""
 # Energy vs alpha for large alpha. 
 alpha = []; step = []; energy = []; variance = []
 infile = open("../build-project1-Desktop-Debug/Helium_atom.txt",'r')
@@ -54,7 +54,7 @@ print min(energy)
 print energy
 print variance
 print alpha
-
+"""
 
 
 
@@ -71,7 +71,14 @@ for line in infile:
 	energy.append(float(splitline[3]))
 	variance.append(float(splitline[4]))
 
-plot(alpha,energy)
+#plot(alpha,energy,label="Energy")
 hold('on')
-plot(beta,energy,'r')
+plot(alpha, variance,label="Variance")
+title("Energy as a function of alpha")
+xlabel(r"$\alpha$", fontsize=20)
+grid('on')
+legend()
+savefig("EnergyVariance_helium5")
 show()
+
+print min(energy)

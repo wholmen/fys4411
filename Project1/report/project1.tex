@@ -70,12 +70,45 @@
  	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium3.png}
  \end{figure}
 
- We can get a better result by improving our test function, $\Psi_T$. We can introduce a Jastrow factor. 
+ We can get a better result by improving our test function, $\Psi_T$. We can introduce a Jastrow factor. Here $r_{12} = |r_1 - r_2|$. 
  \begin{align*}
  	\Psi_T(r_1,r_2) = e^{-\alpha(r_1 + r_2)}e^{\frac{r_{12}}{2(1+\beta r_{12})}}
  \end{align*}
+ 
+ Setting $\beta = 1.0$, we see that we can achieve a better energy, namely $\left<E\right> = -2.88013$. 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium4.png}
+ \end{figure}
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium5.png}
+ \end{figure}
 
-
+\section*{b}
+\begin{align*}
+	\Psi_T &= e^{-\alpha(r_1 + r_2)} \\
+	E_L &= \frac{1}{\Psi_T} \hat H \Psi_T \\
+	\hat H &= -\frac{1}{2}\nabla_1^2 - \frac{1}{2}\nabla_2^2 - \frac{2}{r_1} - \frac{2}{r_2} + \frac{1}{r_{12}} \\
+	\nabla_1^2 \Psi_T &= \frac{1}{r_1^2}\frac{\partial}{\partial r_1}\left(r_1^2 \frac{\partial \Psi_T}{\partial r_1}\right) = -\frac{2}{r_1}\alpha \Psi_T + \alpha^2\Psi_T
+\end{align*}
+Combining these calculations, we get the expression for the local energy. 
+\begin{align*}
+	E_L &= (\alpha - 2) \left( \frac{1}{r_1} + \frac{1}{r_2}\right) + \frac{1}{r_{12}} - \alpha^2
+\end{align*}
+Now finding the closed-form expression for $E_L$ for the second wavefunction. 
+\begin{align*}
+	\Psi_T = e^{-\alpha(r_1 + r_2)}e^{\frac{r_{12}}{2(1+\beta r_{12})}}
+\end{align*}
+First looking at
+\begin{align*}
+	\nabla_1^2 \Psi_T = \frac{1}{r_1^2}\frac{\partial}{\partial r_1}\left(r_1^2 \frac{\partial \Psi_T}{\partial r_1}\right)
+\end{align*}
+\begin{align*}
+	\frac{\partial \Psi_T}{\partial r_1}
+\end{align*}
 
 
 \end{document}
+
+

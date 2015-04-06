@@ -47,10 +47,14 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../project1/main.cpp \
 		../project1/VMCSolver.cpp \
-		../project1/lib.cpp 
+		../project1/lib.cpp \
+		../project1/Beryllium.cpp \
+		../project1/Helium.cpp 
 OBJECTS       = main.o \
 		VMCSolver.o \
-		lib.o
+		lib.o \
+		Beryllium.o \
+		Helium.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -105,7 +109,9 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../project1/project1.pro ../project1/main.cpp \
 		../project1/VMCSolver.cpp \
-		../project1/lib.cpp
+		../project1/lib.cpp \
+		../project1/Beryllium.cpp \
+		../project1/Helium.cpp
 QMAKE_TARGET  = project1
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = project1
@@ -280,15 +286,29 @@ compiler_clean:
 ####### Compile
 
 main.o: ../project1/main.cpp ../project1/VMCSolver.h \
-		../project1/lib.h
+		../project1/lib.h \
+		../project1/Atom.h \
+		../project1/Beryllium.h \
+		../project1/Helium.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../project1/main.cpp
 
 VMCSolver.o: ../project1/VMCSolver.cpp ../project1/VMCSolver.h \
-		../project1/lib.h
+		../project1/lib.h \
+		../project1/Atom.h \
+		../project1/Beryllium.h \
+		../project1/Helium.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VMCSolver.o ../project1/VMCSolver.cpp
 
 lib.o: ../project1/lib.cpp ../project1/lib.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o lib.o ../project1/lib.cpp
+
+Beryllium.o: ../project1/Beryllium.cpp ../project1/Beryllium.h \
+		../project1/lib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Beryllium.o ../project1/Beryllium.cpp
+
+Helium.o: ../project1/Helium.cpp ../project1/Helium.h \
+		../project1/lib.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Helium.o ../project1/Helium.cpp
 
 ####### Install
 

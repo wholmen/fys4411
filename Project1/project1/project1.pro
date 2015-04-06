@@ -5,9 +5,14 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     VMCSolver.cpp \
-    lib.cpp
+    lib.cpp \
+    Beryllium.cpp \
+    Helium.cpp
 
 HEADERS += \
     VMCSolver.h \
-    lib.h
+    lib.h \
+    Helium.h \
+    Beryllium.h \
+    Atom.h
 

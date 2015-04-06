@@ -1,0 +1,4 @@
+#ifndef WAVEFUNCTIONS_H
+#define WAVEFUNCTIONS_H
+
+#endif // WAVEFUNCTIONS_H
