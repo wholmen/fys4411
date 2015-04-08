@@ -55,7 +55,64 @@ double Beryllium::WaveFunction(mat R){
 }
 
 
-double Beryllium::LocalEnergy(mat R){
+double Beryllium::LocalEnergy(mat r){
+    mat Rplus = zeros<mat>(Nparticles, Ndimensions);
+    mat Rminus = zeros<mat>(Nparticles,Ndimensions);
+
+    Rplus = Rminus = r;
+    double Psi = WaveFunction(r);
+
+    // Calculating Kinectic energy
+    double T = 0;
+    for (int i=0; i<Nparticles; i++){
+        for (int j=0; j<Ndimensions; j++){
+            Rplus(i,j) = Rplus(i,j) + h;
+            Rminus(i,j) = Rminus(i,j) - h;
+
+            double PsiMinus = WaveFunction(Rminus);
+            double PsiPlus = WaveFunction(Rplus);
+            T -= (PsiMinus + PsiPlus - 2*Psi);
+            Rplus(i,j) = r(i,j); Rminus(i,j) = r(i,j);
+        }
+    }
+    if (Psi != 0){
+        T = T * 0.5 / (h*h) / Psi;
+    }
+    else {
+        T = T * 0.5 / (h*h) / 1e-16;
+    }
+    // Calculate potential energy for single particle
+    double V = 0;
+    for (int i=0; i<Nparticles; i++){
+        double Singleparticle = 0;
+        for (int j=0; j<Ndimensions; j++){
+            Singleparticle += r(i,j) * r(i,j);
+        }
+        V -= charge/sqrt(Singleparticle);
+    }
+    // Calculate potential energy between two particles.
+    for (int i=0; i<Nparticles; i++){
+        for (int k=i+1; k<Nparticles; k++){
+            double TwoParticle = 0;
+            for (int j=0; j<Ndimensions; j++){
+                double distance = r(k,j) - r(i,j);
+                TwoParticle += distance * distance;
+            }
+            V += 1.0 / sqrt(TwoParticle);
+        }
+    }
+
+    return V + T;
+}
+
+
+
+double Beryllium::sign(double a){
+    return (a>0) ? 1 : -1;
+}
+
+
+double Beryllium::LocalEnergyClosed(mat R){
     double r1, r2, r3, r4, r12, r13, r14, r23, r24, r34;
 
     for (int j=0; j<Ndimensions; j++){

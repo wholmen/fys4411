@@ -1,10 +1,11 @@
 # Fdb version 3
-["pdflatex"] 1426615992 "project1.tex" "project1.pdf" "project1" 1426615993
+["pdflatex"] 1428509608 "project1.tex" "project1.pdf" "project1" 1428509609
   "../python_programs/EnergyVariance_helium1.png" 1426344417 44522 192650a1a55f9c316ba489a33f6984b0 ""
   "../python_programs/EnergyVariance_helium2.png" 1426344418 40682 f27f474cef936ca5dd29238027ca8220 ""
   "../python_programs/EnergyVariance_helium3.png" 1426344419 36418 c87681ca441f5b292f6eb71a9b094915 ""
   "../python_programs/EnergyVariance_helium4.png" 1426346727 35700 90259029a5240283f350cd3e7ca1e1c0 ""
   "../python_programs/EnergyVariance_helium5.png" 1426346742 27957 2bf01dc9d4f55466c75c78f24b39dc73 ""
+  "../python_programs/ImportanceSampling_Helium_dt.png" 1428422961 26166 b03a84aeae305b7808762ebd6d8bdb8c ""
   "/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty" 1335995445 24460 92f559a71aac869021852c227c704b38 ""
@@ -82,9 +83,9 @@
   "/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty" 1399675188 10002 f32f4490d0c87a7854adf544bd459155 ""
   "/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty" 1399675188 7052 bd460af66db50ed38511e63136966a44 ""
   "/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1403829539 4961 d3900e3f4756248d8d0ccedc0016c2eb ""
-  "project1.aux" 1426615993 8 a94a2480d3289e625eea47cd1b285758 ""
-  "project1.tex" 1426615992 5625 10b35b950dfeac5fd6dd5f27c82afdac ""
+  "project1.aux" 1428509609 37 abcd4787160b113f5f6207761c34a910 ""
+  "project1.tex" 1428509608 10618 5acd7b851e61e9e5366e89ab70cfcf7f ""
   (generated)
-  "project1.pdf"
   "project1.log"
+  "project1.pdf"
   "project1.aux"

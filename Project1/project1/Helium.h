@@ -26,6 +26,7 @@ public:
 
     double WaveFunction(mat R);
     double LocalEnergy(mat R);
+    double LocalEnergyClosed(mat R);
     void QuantumForce(mat r, mat &Qforce);
 };
 

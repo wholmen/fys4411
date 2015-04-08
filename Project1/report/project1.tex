@@ -108,6 +108,82 @@ First looking at
 	\frac{\partial \Psi_T}{\partial r_1}
 \end{align*}
 
+A quick Sympy program computes the following expressions for the local energy:
+\begin{align*}
+- 1.0 \alpha^{2} + \frac{1.0 \alpha}{r_{2}} + \frac{1.0 \alpha}{r_{1}} - \frac{2}{r_{2}} + \frac{1}{r_{12}} - \frac{2}{r_{1}}\end{align*}
+
+
+\section*{Importance Sampling}
+ Introducing importance sampling. We can see from the plot below that using $dt = 10^-3$, we get stable results. A smaller $dt$ probably gives rise to different kinds of errors, like truncation errors etc. Using this dt, we get $-2.86462$ as the energy. This is a slightly higher energy than the energy obtained in 
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/ImportanceSampling_Helium_dt.png}
+ \end{figure}
+
+\section*{Statistical Analysis}
+ A Monte Carlo simulation gives rise to two kinds of error. Systematic errors and statistical errors. Systematic errors are due to limitations of the applied models and faulty implementations. Here I will explore methods to estimate the statistical error. 
+
+ Given a set of local energies, the variance is a measure of the spread from the true mean. The definition is
+ \begin{align*}
+ 	\text{Var}(E) = \left< E^2 \right> - \left< E \right> ^2 
+ \end{align*}
+ Unfortunatly we do not know the true mean in a Monte-Carlo simulation. The computed average $\overline E$ is an approximation to the exact mean, and we do the following approximation
+ \begin{align*}
+ 	\text{Var}(E) \approx \overline{E^2} - \overline{E}^2 
+ \end{align*}
+ For the case where we have the exact wave function, the variance becomes $0$, so the variance is an excellent measure of how close we are to the exact wave function. The variance however is \textit{not} a direct measure of the error. The standard deviation, the square root of the variance is related of the \textit{spread} in the sampled value. 
+ \begin{align}
+ 	\sigma ^2(x) = \text{Var}(x)
+ 	\label{deviation}
+ \end{align}
+ This does not account for the samples being corrolated. Two samples, $x$ and $y$ are corrolated if the \textit{Covariance} is non-zero.
+ \begin{align*}
+ 	\text{Cov}(x,y) = \left< xy \right> - \left< x \right> \left<y \right> 
+ \end{align*}
+ The diagonal elements of the Covariance is the Variance. By ignoring the corrolations, one get an error estimate that is generally too small. Given the true deviation, $\sigma_e$ and $\sigma$ from \ref{deviation} we have
+ \begin{align*}
+ 	\sigma_c \geq \sigma
+ \end{align*}
+
+ The most interesting quantity when doing statistical analysis is not the error of single samples. It is the error of the mean value. One can show that the variance for the mean value, $m$ is 
+ \begin{align*}
+ 	\sigma^2 (m) = \frac{1}{n} \text{Cov}(x) = \frac{1}{n^2} \sum_{k,l=1}^n (x_k - m)(x_l - m )
+ \end{align*}
+ Where n is the number of samples used to calculate $m$ and 
+ \begin{align*}
+ 	m = \frac{1}{n} \sum_i^n x_i
+ \end{align*}
+ Calculating the Covariance is an expensive process for a large sample set, so we need a better way to calculate this. 
+
+\section*{Blocking}
+ There is no need to do statistical analysis within the Monte-Carlo simulation. By storing the data set, one can estimate the error post process. An efficient algorithm for this is called blocking. 
+
+ Given a set of $N$ samples from a single Monte-Carlo process. This set is divided into $n$ blocks of size $n_b = N/n$. Now we can treat each block as an individual simulation to calculate the variance of a calculated mean, $m$. 
+ \begin{align*}
+ 	\sigma^2 (m) = \left<m^2\right> - \left<m\right>^2 
+ \end{align*}
+
+\section*{One-body density}
+ The one-body density is defined as
+ \begin{align*}
+ 	\rho(r_1) = \int_{r_2} .. \int_{r_N} | \Phi(r_1 r_2 .. r_N) |^2 dr_2 .. dr_N
+ \end{align*}
+
+ The distribution $|\Phi(r)|^2$ describes the distribution of a particle in the system. The one-body density $\rho(r_1)$ describes the simultaneous distribution of every particle in the system. $\rho(r_1) dr_1 $ represents the probability of finding \textit{any} particle in the volume element $dr_1$ as oppsed to $|\Phi(r)|^2$ giving the probability of finding \textit{particle $r_1$} in the volume element $dr_1$. Due to the indistinguishable nature of the particles, any of the coordinates contain information about all the particles. I will therefore normalize this density to the number of particles $N$ and not $1$ which is common for the one-particle density. 
+
+ The way this is computed in a Monte Carlo simulation is by taking snapshots of all positions for every timestep, then constructing a histogram to construct an approximation to the wave function.
+
+ The charge density for a single particle is given by 
+ \begin{align*}
+ 	\rho_q (r) = q |\Psi(r)|^2
+ \end{align*}
+ However, since we already have computed the many-body probability density, we can use this instead to get the many-body charge density of the system. 
+ \begin{align*}
+ 	\rho_q (r) = Q \rho(r_1)
+ \end{align*}
+
+\section*{Variational Monte Carlo on Helium}
+ I have found the optimal parametres for calculating on Helium. I set $\alpha = 1.68$ and $\beta = 0.3$. When doing a 
 
 \end{document}
 

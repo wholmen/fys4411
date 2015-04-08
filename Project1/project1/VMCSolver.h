@@ -15,9 +15,9 @@ class VMCSolver
 private:
     int Nstep;
     long idum;
-
     double Nparticles;
     double Ndimensions;
+    bool closed;
 
 public:
     double step;
@@ -28,12 +28,12 @@ public:
     Atom atom;
 
     VMCSolver() {}
-    VMCSolver(Atom a): Nstep(100000), idum(-1), step(2.55), AcceptRate(0)
-    {atom = a; Nparticles = atom.Nparticles; Ndimensions = atom.Ndimensions;}
+    VMCSolver(Atom a, bool CLOSED): Nstep(100000), idum(-1), step(2.55), AcceptRate(0)
+    {atom = a; Nparticles = atom.Nparticles; Ndimensions = atom.Ndimensions; closed = CLOSED;}
 
     void MCintegration();
     void FindStepLength();
-    void ImportanceSampling();
+    void ImportanceSampling(double DT);
 };
 
 

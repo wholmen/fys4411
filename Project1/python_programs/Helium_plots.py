@@ -60,7 +60,7 @@ print alpha
 
 
 
-
+"""
 alpha = []; beta = []; step = []; energy = []; variance = []
 infile = open("../build-project1-Desktop-Debug/Helium_atom_wf2.txt",'r')
 for line in infile:
@@ -82,3 +82,21 @@ savefig("EnergyVariance_helium5")
 show()
 
 print min(energy)
+"""
+
+dt = []; energy = []
+infile = open('../build-project1-Desktop-Debug/Compare_dt_Importance.txt','r')
+for line in infile:
+	splitline = line.split()
+	dt.append(float(splitline[0]))
+	energy.append(float(splitline[1]))
+
+dt = array(dt); energy = array(energy)
+plot(dt, energy)
+xscale('log', nonposy='clip')
+title('Energy as dt varies using Importance sampling')
+xlabel('dt')
+ylabel('energy')
+ylim([-4,-2.5])
+savefig('ImportanceSampling_Helium_dt.png')
+show()

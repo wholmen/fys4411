@@ -1,8 +1,6 @@
 #include <Helium.h>
 
 
-
-
 void Helium::QuantumForce(mat r, mat &Qforce){
     mat Rplus = zeros<mat>(Nparticles,Ndimensions);
     mat Rminus = zeros<mat>(Nparticles,Ndimensions);
@@ -23,6 +21,27 @@ void Helium::QuantumForce(mat r, mat &Qforce){
         }
     }
     Qforce = Qforce / h / Psi;
+}
+
+double Helium::LocalEnergyClosed(mat R){
+    double r1, r2, r12, r1r2;
+
+    for (int j=0; j<Ndimensions; j++){
+        r1 += R(0,j)*R(0,j);
+        r2 += R(1,j)*R(1,j);
+        r1r2 += R(0,j)*R(1,j);
+
+        r12 += (R(1,j)-R(0,j)) * (R(1,j)-R(0,j));
+    }
+    r1 = sqrt(r1); r2 = sqrt(r2); r12 = sqrt(r12);
+
+    double EL1 = (alpha - charge) * (1.0/r1 + 1.0/r2) + 1.0/r12 - alpha*alpha;
+    if (WFnumber == 1){
+        return EL1;
+    }
+    else {
+        return EL1 + 1 / (2*(1 + beta*r12)*(1+beta*r12)) * (alpha * (r1+r2)/r12 * (1 - r1*r2/(r1*r2) ) - 1 / (2*(1 + beta*r12)*(1 + beta*r12)) - 2/r12 + 2*beta/(1 + beta*r12) );
+    }
 }
 
 double Helium::LocalEnergy(mat r){

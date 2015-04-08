@@ -56,7 +56,7 @@ void VMCSolver::MCintegration(){
                     Rnew(i,j) = Rold(i,j);
                 }
             }
-            Elocal = atom.LocalEnergy(Rnew);
+            (closed == true) ? Elocal = atom.LocalEnergyClosed(Rnew) : Elocal = atom.LocalEnergy(Rnew);
             Etotal += Elocal;
             Esquared += Elocal * Elocal;
         }
@@ -67,7 +67,7 @@ void VMCSolver::MCintegration(){
     AcceptRate = AcceptStep / (Nstep * Nparticles);
 }
 
-void VMCSolver::ImportanceSampling(){
+void VMCSolver::ImportanceSampling(double DT){
     mat Rold = zeros<mat>(Nparticles,Ndimensions);
     mat Rnew = zeros<mat>(Nparticles,Ndimensions);
     mat QForceOld = zeros<mat>(Nparticles,Ndimensions);
@@ -77,7 +77,7 @@ void VMCSolver::ImportanceSampling(){
     double PsiNew = 0;
     double GreenFunction;
     double Elocal; double Etotal = 0; double Esquared = 0;
-    double dt = 0.05;
+    double dt = DT;
 
 
     for (int i=0; i<Nparticles; i++){
@@ -88,6 +88,9 @@ void VMCSolver::ImportanceSampling(){
 
     PsiOld = atom.WaveFunction(Rold);
     PsiNew = PsiOld;
+
+    ofstream myfile;
+    myfile.open('Blocking_file.txt');
 
     for (int n=0; n<Nstep; n++){
         PsiOld = atom.WaveFunction(Rold);
@@ -133,6 +136,7 @@ void VMCSolver::ImportanceSampling(){
             Elocal = atom.LocalEnergy(Rnew);
             Etotal += Elocal;
             Esquared += Elocal * Elocal;
+            myfile << Elocal << " " << Elocal*Elocal << endl;
         }
     }
     Energy = Etotal / (Nstep * Nparticles);

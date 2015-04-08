@@ -17,8 +17,9 @@ public:
     Atom(Beryllium B) {atom2 = B; Nparticles=B.Nparticles; Ndimensions=B.Ndimensions; charge=B.charge; alpha=B.alpha; beta=B.beta;}
     Atom() {}
 
-    double WaveFunction(mat R) {if (charge==2) return atom.WaveFunction(R); else return atom2.WaveFunction(R);}
-    double LocalEnergy(mat R) {if (charge==2) return atom.LocalEnergy(R); else return atom2.LocalEnergy(R);}
+    double WaveFunction(mat R) {return (charge==2) ? atom.WaveFunction(R) : atom2.WaveFunction(R);}
+    double LocalEnergy(mat R) {return (charge==2) ? atom.LocalEnergy(R) : atom2.LocalEnergy(R);}
+    double LocalEnergyClosed(mat R) {return (charge == 2) ? atom.LocalEnergyClosed(R) : atom2.LocalEnergyClosed(R);}
     void QuantumForce(mat r, mat &Qforce) {atom.QuantumForce(r, Qforce);}
 };
 

@@ -16,17 +16,29 @@ void HeliumAlphaBeta();
 
 int main()
 {
-
-    Helium h = Helium(1.7, 2, 1);
+    Helium h = Helium(1.68, 1, 2);
     Atom a = Atom(h);
-    VMCSolver solve = VMCSolver(a);
-    solve.MCintegration();
+    VMCSolver solve = VMCSolver(a,false);
+    //solve.MCintegration();
 
-    Beryllium b = Beryllium(1.7,2);
-    Atom c = Atom(b);
-    VMCSolver solve2 = VMCSolver(c);
+    vec delta_t = zeros<vec>(6);
+    delta_t(0) = 1; delta_t(1) = 0.1; delta_t(2) = 0.01; delta_t(3) = 0.001; delta_t(4) = 0.0001; delta_t(5) = 0.00001;
+    ofstream myfile;
+    myfile.open("Compare_dt_Importance.txt");
+    for (int i=0; i<6; i++){
+        solve.ImportanceSampling(delta_t(i));
+        myfile << delta_t(i) << " " << solve.Energy << endl;
+    }
+
+
+    //cout << solve.Energy << endl;
+
+    /*
+    Beryllium Ber = Beryllium(1.7,2);
+    Atom b = Atom(Ber);
+    VMCSolver solve2 = VMCSolver(b,false);
     solve2.MCintegration();
-    cout << solve2.Energy;
+    cout << solve2.Energy; */
 
     return 0;
 }
