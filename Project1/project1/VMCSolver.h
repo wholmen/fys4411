@@ -24,11 +24,12 @@ public:
     double Energy;
     double Variance;
     double AcceptRate;
+    double Phitotal;
 
     Atom atom;
 
     VMCSolver() {}
-    VMCSolver(Atom a, bool CLOSED): Nstep(100000), idum(-1), step(2.55), AcceptRate(0)
+    VMCSolver(Atom a, bool CLOSED): Nstep(10000), idum(-1), step(1.5), AcceptRate(0)
     {atom = a; Nparticles = atom.Nparticles; Ndimensions = atom.Ndimensions; closed = CLOSED;}
 
     void MCintegration();

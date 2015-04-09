@@ -35,7 +35,7 @@
  \maketitle
  \newpage
 
- \section*{1a}
+ \section*{Monte-Carlo integration for Helium atom}
  In this exercise I will use Monte Carlo integration to compute the expectation value for the energy. 
  \begin{align*}
  	\left< E \right> = \frac{\int d \mathbf{r_1} d \mathbf{r_2} \psi_T^*(r_1,r_2) \hat H \psi_T(r_1,r_2)}{\int d \mathbf{r_1} d \mathbf{r_2} \psi_T^*(r_1,r_2) \psi_T(r_1,r_2)}
@@ -65,53 +65,17 @@
  	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium2.png}
  \end{figure}
 
- \begin{figure}[H]
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium3.png}
- \end{figure}
-
  We can get a better result by improving our test function, $\Psi_T$. We can introduce a Jastrow factor. Here $r_{12} = |r_1 - r_2|$. 
  \begin{align*}
  	\Psi_T(r_1,r_2) = e^{-\alpha(r_1 + r_2)}e^{\frac{r_{12}}{2(1+\beta r_{12})}}
  \end{align*}
  
- Setting $\beta = 1.0$, we see that we can achieve a better energy, namely $\left<E\right> = -2.88013$. 
- \begin{figure}[H]
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium4.png}
- \end{figure}
+ By varying $\alpha$ and $\beta$ to find the lowest energy, we see that we can get a lower energy. Namely $E = -2.89207$ for $\alpha = 1.75$ and $\beta = 0.3$. I will later use these values when I do an optimal Monte Carlo integration with statistical analysis.
+
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=\textwidth]{../python_programs/EnergyVariance_helium5.png}
  \end{figure}
-
-\section*{b}
-\begin{align*}
-	\Psi_T &= e^{-\alpha(r_1 + r_2)} \\
-	E_L &= \frac{1}{\Psi_T} \hat H \Psi_T \\
-	\hat H &= -\frac{1}{2}\nabla_1^2 - \frac{1}{2}\nabla_2^2 - \frac{2}{r_1} - \frac{2}{r_2} + \frac{1}{r_{12}} \\
-	\nabla_1^2 \Psi_T &= \frac{1}{r_1^2}\frac{\partial}{\partial r_1}\left(r_1^2 \frac{\partial \Psi_T}{\partial r_1}\right) = -\frac{2}{r_1}\alpha \Psi_T + \alpha^2\Psi_T
-\end{align*}
-Combining these calculations, we get the expression for the local energy. 
-\begin{align*}
-	E_L &= (\alpha - 2) \left( \frac{1}{r_1} + \frac{1}{r_2}\right) + \frac{1}{r_{12}} - \alpha^2
-\end{align*}
-Now finding the closed-form expression for $E_L$ for the second wavefunction. 
-\begin{align*}
-	\Psi_T = e^{-\alpha(r_1 + r_2)}e^{\frac{r_{12}}{2(1+\beta r_{12})}}
-\end{align*}
-First looking at
-\begin{align*}
-	\nabla_1^2 \Psi_T = \frac{1}{r_1^2}\frac{\partial}{\partial r_1}\left(r_1^2 \frac{\partial \Psi_T}{\partial r_1}\right)
-\end{align*}
-\begin{align*}
-	\frac{\partial \Psi_T}{\partial r_1}
-\end{align*}
-
-A quick Sympy program computes the following expressions for the local energy:
-\begin{align*}
-- 1.0 \alpha^{2} + \frac{1.0 \alpha}{r_{2}} + \frac{1.0 \alpha}{r_{1}} - \frac{2}{r_{2}} + \frac{1}{r_{12}} - \frac{2}{r_{1}}\end{align*}
-
 
 \section*{Importance Sampling}
  Introducing importance sampling. We can see from the plot below that using $dt = 10^-3$, we get stable results. A smaller $dt$ probably gives rise to different kinds of errors, like truncation errors etc. Using this dt, we get $-2.86462$ as the energy. This is a slightly higher energy than the energy obtained in 
@@ -140,15 +104,16 @@ A quick Sympy program computes the following expressions for the local energy:
  \begin{align*}
  	\text{Cov}(x,y) = \left< xy \right> - \left< x \right> \left<y \right> 
  \end{align*}
- The diagonal elements of the Covariance is the Variance. By ignoring the corrolations, one get an error estimate that is generally too small. Given the true deviation, $\sigma_e$ and $\sigma$ from \ref{deviation} we have
+ The diagonal elements of the Covariance is the Variance. By ignoring the corrolations, one get an error estimate that is generally too small. Given the true deviation, $\sigma_e$ and $\sigma$ from (\ref{deviation}) we have
  \begin{align*}
  	\sigma_c \geq \sigma
  \end{align*}
 
  The most interesting quantity when doing statistical analysis is not the error of single samples. It is the error of the mean value. One can show that the variance for the mean value, $m$ is 
- \begin{align*}
- 	\sigma^2 (m) = \frac{1}{n} \text{Cov}(x) = \frac{1}{n^2} \sum_{k,l=1}^n (x_k - m)(x_l - m )
- \end{align*}
+ \begin{align}
+ 	\sigma^2 (m) = \frac{1}{n} \text{Cov}(x)
+ 	\label{covariance}
+ \end{align}
  Where n is the number of samples used to calculate $m$ and 
  \begin{align*}
  	m = \frac{1}{n} \sum_i^n x_i
@@ -158,10 +123,12 @@ A quick Sympy program computes the following expressions for the local energy:
 \section*{Blocking}
  There is no need to do statistical analysis within the Monte-Carlo simulation. By storing the data set, one can estimate the error post process. An efficient algorithm for this is called blocking. 
 
- Given a set of $N$ samples from a single Monte-Carlo process. This set is divided into $n$ blocks of size $n_b = N/n$. Now we can treat each block as an individual simulation to calculate the variance of a calculated mean, $m$. 
+ Given a set of $N$ samples from a single Monte-Carlo process. This set is divided into $n$ blocks of size $n_b = N/n$. Now we can treat each block as an individual simulation to calculate the variance of a calculated mean, $m$. This will in turn give us the covariance by (\ref{covariance}).
  \begin{align*}
  	\sigma^2 (m) = \left<m^2\right> - \left<m\right>^2 
  \end{align*}
+
+ One can not know beforehand which block size is optimal to compute the exact error. One can, however, plot the variance against different block sizes. The curve should be stable over a span of block sizes. This plateau will serve as a reasonable approximation to the covariance. 
 
 \section*{One-body density}
  The one-body density is defined as
@@ -182,8 +149,36 @@ A quick Sympy program computes the following expressions for the local energy:
  	\rho_q (r) = Q \rho(r_1)
  \end{align*}
 
-\section*{Variational Monte Carlo on Helium}
- I have found the optimal parametres for calculating on Helium. I set $\alpha = 1.68$ and $\beta = 0.3$. When doing a 
+\section*{Final variational Monte-Carlo on Helium}
+ I have found the optimal parametres for calculating on Helium. I set $\alpha = 1.75$, $\beta = 0.3$, $\text{step} = 1.5$. This computation gave an energy of
+ \begin{align*}
+ 	E = -2.89207
+ \end{align*}
+ Which is pretty close to the best value $-2.903$. 
+
+ A plot of the probability density:
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensity.png}
+ \end{figure}
+ Since we only have the 1s-states, the density should be close in shape to the 1s-shape. This density will be more spread out when one take the electron-electron repulsion into account, because the repulsion can be seen as a reduction in the core's charge. 
+
+ By using the blocking analysis, the following plot shows how variance of the mean $E$-value changes when the block size changes. The y-axis shows the total error in the calculation. 
+ One see that the error is estimated to be around $0.29$. The spread seams to be pretty uniform and I conclude that the corrolation is low. 
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/HeliumBlocking.png}
+ \end{figure}
+
+
+ \section*{Note on programs}
+ I deliver this project as a project on Helium without analytical calculations. I will finish up the next project as fast as possible. And there I will focus on the analytical local energy to compute both Helium, Beryllium and Neon.
+
+ The python program blocking\_analysis.py computes the blocking graph and the probability density. 
+
+ Helium\_plots.py generates the plots for different $\alpha $. 
+
+ The c++ code will have a pretty different structure in project 2. 
 
 \end{document}
 

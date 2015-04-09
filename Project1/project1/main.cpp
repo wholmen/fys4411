@@ -1,7 +1,6 @@
 #include <iostream>
 #include <VMCSolver.h>
 #include <armadillo>
-#include <complex>
 #include <lib.h>
 #include <fstream>
 #include <Beryllium.h>
@@ -10,12 +9,39 @@
 using namespace arma;
 using namespace std;
 
-void HeliumAlphaZoom();
-void HeliumAlpha();
-void HeliumAlphaBeta();
+void Helium_FindAlphaZoom();
+void Helium_FindAlpha();
+void Helium_FindBeta();
+void ImportanceSampling_FindDt();
+void FinalHelium();
 
 int main()
 {
+    //Helium_FindAlpha();
+    //Helium_FindAlphaZoom();
+    //Helium_FindBeta();
+    //ImportanceSampling_FindDt();
+
+    FinalHelium();
+
+    return 0;
+}
+
+
+void FinalHelium(){
+    double alpha = 1.75;
+    double beta = 0.3;
+
+    Helium h = Helium(alpha,beta,2);
+    Atom a = Atom(h);
+    VMCSolver solve = VMCSolver(a,false);
+
+    solve.FindStepLength();
+    solve.MCintegration();
+    cout << solve.Energy << " " << solve.step;
+}
+
+void ImportanceSampling_FindDt(){
     Helium h = Helium(1.68, 1, 2);
     Atom a = Atom(h);
     VMCSolver solve = VMCSolver(a,false);
@@ -29,53 +55,38 @@ int main()
         solve.ImportanceSampling(delta_t(i));
         myfile << delta_t(i) << " " << solve.Energy << endl;
     }
-
-
-    //cout << solve.Energy << endl;
-
-    /*
-    Beryllium Ber = Beryllium(1.7,2);
-    Atom b = Atom(Ber);
-    VMCSolver solve2 = VMCSolver(b,false);
-    solve2.MCintegration();
-    cout << solve2.Energy; */
-
-    return 0;
 }
 
-/*
-
-void HeliumAlphaBeta(){
-    int Nalpha = 20;
-    vec alpha = zeros<vec>(Nalpha);
-    for (int i=0; i<Nalpha; i++){
-        alpha(i) = 1.65 + i/80.0;
-    }
-
-    int Nbeta = 1;
+void Helium_FindBeta(){
+    int Nbeta = 8;
     vec beta = zeros<vec>(Nbeta);
     for (int i=0; i<Nbeta; i++){
-        beta(i) = 1 + i;
+        beta(i) = 0.3 + i*0.2;
+    }
+
+    int Nalpha = 8;
+    vec alpha = zeros<vec>(Nalpha);
+    for (int i=0; i<Nalpha; i++){
+        alpha(i) = 1.6 + i*0.025;
     }
 
     ofstream myfile;
     myfile.open("Helium_atom_wf2.txt");
-    for (int i=0; i<Nalpha; i+=1){
+    for (int i=0; i<Nalpha; i++){
         for (int j=0; j<Nbeta; j+=1){
-            VMCSolver helium = VMCSolver();
-            helium.alpha = alpha(i);
-            helium.beta = beta(j);
-            helium.WFnumber = 2;
-            helium.FindStepLength();
+            Helium helium = Helium(alpha(i), beta(j), 2);
+            Atom atom = Atom(helium);
+            VMCSolver solver = VMCSolver(atom,false);
 
-            helium.MCintegration();
-            myfile << alpha(i) << " " << beta(j) << " " << helium.step << " " << helium.Energy << " " << helium.Variance << " " << helium.AcceptRate << endl;
+            solver.FindStepLength();
+            solver.MCintegration();
+            myfile << alpha(i) << " " << beta(j) << " " << solver.step << " " << solver.Energy << " " << solver.Variance << " " << endl;
         }
     }
     myfile.close();
 }
 
-void HeliumAlphaZoom(){
+void Helium_FindAlphaZoom(){
     int Nalpha = 11;
     vec alpha = zeros<vec>(Nalpha);
     for (int i=0; i<Nalpha; i++){
@@ -84,36 +95,35 @@ void HeliumAlphaZoom(){
 
     ofstream myfile; myfile.open("Helium_atom_zoom.txt");
     for (int i=0; i<Nalpha; i++){
-        VMCSolver helium = VMCSolver();
-        helium.alpha = alpha(i);
-        helium.FindStepLength();
+        Helium helium = Helium(alpha(i),1,1);
+        Atom atom = Atom(helium);
+        VMCSolver solver = VMCSolver(atom,false);
 
-        helium.MCintegration();
-        myfile << alpha(i) << " " << helium.step << " " << helium.Energy << " " << helium.Variance << " " << helium.AcceptRate << endl;
+        solver.FindStepLength();
+        solver.MCintegration();
+        myfile << alpha(i) << " " << solver.step << " " << solver.Energy << " " << solver.Variance << " " << endl;
 
     }
     myfile.close();
 }
 
-void HeliumAlpha(){
-    int Nalpha = 21;
+void Helium_FindAlpha(){
+    int Nalpha = 31;
     vec alpha = zeros<vec>(Nalpha);
     for (int i=0; i<Nalpha; i++){
-        alpha(i) = 1.3 + i/30.0;
+        alpha(i) = 0.0 + i/10.0;
     }
 
     ofstream myfile; myfile.open("Helium_atom.txt");
     for (int i=0; i<Nalpha; i++){
-        VMCSolver helium = VMCSolver();
-        helium.alpha = alpha(i);
-        helium.FindStepLength();
+        Helium helium = Helium(alpha(i),1,1);
+        Atom atom = Atom(helium);
+        VMCSolver solver = VMCSolver(atom,false);
 
-        helium.MCintegration();
-        myfile << alpha(i) << " " << helium.step << " " << helium.Energy << " " << helium.Variance << " " << helium.AcceptRate << endl;
-
+        solver.FindStepLength();
+        solver.MCintegration();
+        myfile << alpha(i) << " " << solver.step << " " << solver.Energy << " " << solver.Variance << " " << endl;
     }
     myfile.close();
 }
 
-
-*/

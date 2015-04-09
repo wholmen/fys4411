@@ -6,10 +6,11 @@ void VMCSolver::FindStepLength(){
     Nstep = 10000;
     MCintegration();
     while (AcceptRate > 0.51 or AcceptRate < 0.49){
-        step += 0.05*ran2(&idum);
+        step += 0.05;
         MCintegration();
+        if (step > 2.5){break;}
     }
-    Nstep = 1000000;
+    Nstep = 100000;
 }
 
 void VMCSolver::MCintegration(){
@@ -34,6 +35,9 @@ void VMCSolver::MCintegration(){
 
     Rnew = Rold;
 
+    ofstream myfile;
+    myfile.open("Blocking_file.txt");
+
     // Total loop for all the cycles
     for (int n=0; n<Nstep; n++){
         PsiOld = atom.WaveFunction(Rold);
@@ -54,13 +58,18 @@ void VMCSolver::MCintegration(){
             else{
                 for (int j=0; j<Ndimensions; j++){
                     Rnew(i,j) = Rold(i,j);
+                    PsiNew = PsiOld;
                 }
             }
             (closed == true) ? Elocal = atom.LocalEnergyClosed(Rnew) : Elocal = atom.LocalEnergy(Rnew);
             Etotal += Elocal;
             Esquared += Elocal * Elocal;
+
+            myfile << Elocal << " " << Elocal*Elocal << " " << Rnew.row(i)(0) << endl;
         }
     }
+    myfile.close();
+
     Energy = Etotal / (Nstep * Nparticles);
     Esquared = Esquared / (Nstep * Nparticles);
     Variance = - Energy*Energy + Esquared;
@@ -89,8 +98,6 @@ void VMCSolver::ImportanceSampling(double DT){
     PsiOld = atom.WaveFunction(Rold);
     PsiNew = PsiOld;
 
-    ofstream myfile;
-    myfile.open('Blocking_file.txt');
 
     for (int n=0; n<Nstep; n++){
         PsiOld = atom.WaveFunction(Rold);
@@ -136,7 +143,6 @@ void VMCSolver::ImportanceSampling(double DT){
             Elocal = atom.LocalEnergy(Rnew);
             Etotal += Elocal;
             Esquared += Elocal * Elocal;
-            myfile << Elocal << " " << Elocal*Elocal << endl;
         }
     }
     Energy = Etotal / (Nstep * Nparticles);
