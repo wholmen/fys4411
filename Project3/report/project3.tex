@@ -1,0 +1,153 @@
+\documentclass[a4paper, 12pt, titlepage]{article}
+
+\usepackage{graphicx, color} %for å inkludere grafikk
+\usepackage{verbatim, color} %for å inkludere filer med tegn LaTeX ikke liker. \verbatiminput{verb.txt}
+%\usepackage{gensymb} %gensymb Symbols Defined to Work in Both Math and Text Mode 
+
+\usepackage[T1]{fontenc} %for å bruke æøå. upgrades to 256 bit encoding. More characters
+\usepackage[utf8]{inputenc} %Kan forandres til latin1. utf8 gir norske tegn
+%inputenc allows the user to input accented characters directly from the keyboard;
+%fontenc is oriented to output, that is, what fonts to use for printing characters.
+%\usepackage[norsk]{babel} 
+
+\usepackage{pdfpages} %Importing external pdf-pages
+\usepackage[compact]{titlesec} %Spacing for two-column document
+
+\usepackage{textcomp} % make degrees centigrade symbols, euros, etc
+\usepackage{amsmath, amssymb} %e.g. \begin{theorem}[Pythagoras], \begin{proof} or {align}
+\usepackage{amsbsy, amsfonts} %\pmb for annerledes boldfont
+\usepackage{parskip} %Space between paragraphs
+\usepackage{float} %Im­proves the in­ter­face for defin­ing float­ing ob­jects such as fig­ures and ta­bles.
+\usepackage{simplewick}
+\usepackage{libertine} 
+\usepackage{siunitx} % SI units. Example: \SI{100}{\micro\meter}
+
+\usepackage{geometry} % Definerer marger. 
+ %\geometry{headhight=1mm}
+ \geometry{top=20mm, bottom=20mm, left=30mm, right=30mm} % Marger i mm. Total bredde er 210mm
+
+
+
+\author{Wilhelm Holmen}
+\title{FYS4411 Project 1}
+
+\begin{document}
+ \maketitle
+ \newpage
+
+ \begin{section}{Analytical calculation of the local energy}
+ Calculating the kinetic energy numerically is costly. One can considerably reduce computational time by using a closed form expression for the energy. 
+
+ We have trial wavefunction 
+ \begin{align*}
+ 	\Psi = e^{-\alpha(r_1 + r_2)}
+ \end{align*}
+ and we want to calculate the local energy given by
+ \begin{align*}
+ 	E_L = \frac{1}{\Psi} \hat H \Psi
+ \end{align*}
+ where
+ \begin{align*}
+ 	\hat H = -\frac{\nabla_1^2}{2} - \frac{\nabla_2^2}{2} - \frac{2}{r_1} - \frac{2}{r_2} + \frac{1}{r_{12}}
+ \end{align*}
+ Rewriting	
+ \begin{align*}
+ 	T_{L1} = \frac{1}{\Psi} \left( -\frac{\nabla_1^2}{2} - \frac{\nabla_2^2}{2} \right) \Psi
+ \end{align*}
+ \begin{align*}
+ 	V_{L1} = \frac{1}{\Psi} \left( - \frac{2}{r_1} - \frac{2}{r_2} + \frac{1}{r_{12}} \right) \Psi
+ \end{align*}
+ Doing the calculations, we find that
+ \begin{align*}
+ 	T_{L1} = -\frac{1}{2} \frac{1}{\Psi} \left( \frac{1}{r_1^2} \frac{\partial}{\partial r_1} \left( r_1^2 \frac{\partial}{\partial r_1} \Psi \right) + \frac{1}{r_2^2} \frac{\partial}{\partial r_2} \left( r_2^2 \frac{\partial}{\partial r_2} \Psi \right) \right)
+ \end{align*}
+ \begin{align*}
+ 	T_{L1} = -\frac{1}{2} \left( -\frac{2}{r_1}\alpha + \alpha^2 - \frac{2}{r_2} + \alpha^2 \right)
+ \end{align*}
+ Adding $T_{L1}$ and $V_{L1}$ 
+ \begin{align*}
+ 	E_{L1} = \left( \alpha - 2 \right) \left( \frac{1}{r_1} + \frac{1}{r_2} \right) + \frac{1}{r_{12}} - \alpha^2 
+ \end{align*}
+
+ Introducing the Jastrow factor, one can rewrite the wavefunction
+ as a product of the direct term and the corrolation term. 
+ \begin{align*}
+ 	\Psi = \Psi_D \Psi_C
+ \end{align*}
+ We want to calculate the kinetic energy and divide by the wavefunction.
+ \begin{align*}
+ 	T_{L2} = \frac{1}{\Psi} \frac{-\nabla^2}{2} \Psi
+ \end{align*}
+ Using the chain rule. This equation must be calculated for both particles. 
+ \begin{align}
+ 	T_{L2} = -\frac{1}{2} \left( \frac{1}{\Psi_D}\nabla^2 \Psi_D + 2 \frac{1}{\Psi_D \Psi_C} \nabla \Psi_D \cdot \nabla \Psi_C + \nabla^2 \Psi_C \right)
+ 	\label{T_L2}
+ \end{align}
+ The first term is easily calculated, as it is the same as for $E_{L1}$
+ \begin{align*}
+ 	\frac{1}{\Psi_D}\nabla^2 \Psi_D =  -\frac{2}{r_1}\alpha + \alpha^2 
+ \end{align*}
+
+ Calculating the second term
+ \begin{align*}
+ 	\frac{1}{\Psi_D} \nabla \Psi_D = \frac{1}{\Psi_D} \frac{\partial}{\partial r} \Psi_D \hat e_r 
+ \end{align*}
+ \begin{align}
+ 	\frac{1}{\Psi_D} \nabla \Psi_D = -\alpha \hat e_r
+ \end{align}
+ When differentiating the corrolation term, given by
+ \begin{align*}
+ 	e^{\frac{r_{12}}{2\left(1 + \beta r_{12} \right)}}
+ \end{align*}
+ One must use that
+ \begin{align}
+ 	\frac{\partial}{\partial r_i} r_{12} = (-1)^{i+1} \frac{\vec r_1 - \vec r_2}{r_{12}} \hat e_{ri}
+ \end{align}
+
+ \begin{align*}
+ 	\frac{1}{\Psi_C} \nabla \Psi_C = \frac{1}{\Psi_C} \frac{\partial}{\partial r} \Psi_C \hat e_r 
+ \end{align*}
+ Giving for particle, $i$
+ \begin{align*}
+ 	\frac{1}{\Psi_C} \nabla \Psi_C = (-1)^{i+1} \frac{\vec r_1 - \vec r_2}{2r_{12} \left(1+\beta r_{12} \right)}
+ \end{align*}
+ Finally multiplying and adding both particles. 
+ \begin{align}
+ 	\frac{\nabla_1 \Psi_D}{\Psi_D} \cdot \frac{\nabla_1 \Psi_C }{\Psi_C} + \frac{\nabla_2 \Psi_D}{\Psi_D}  \cdot \frac{\nabla_2 \Psi_C}{\Psi_C}  = \frac{-1}{\left(1+\beta r_{12} \right)} \left( \frac{\alpha(r_1 + r_2)}{r_{12}} \left(1 - \frac{\vec r_1 \cdot \vec r_2)}{r_1 r_2} \right)  \right)
+ \end{align} 
+
+ Now, to calculate the last term in (\ref{T_L2}). 
+ \begin{align}
+ 	\frac{\nabla^2 \Psi_C}{\Psi_C} = \frac{1}{\Psi_C} \left( \frac{2}{r} \frac{\partial}{\partial r}\Psi_C + \frac{\partial^2 }{\partial r^2} \Psi_C \right)
+ \end{align}
+ Looking at the first part for both particles
+ \begin{align*}
+ 	\frac{2}{r_1} \frac{\vec r_1 - \vec r_2}{2r_{12} \left(1+\beta r_{12} \right)} \frac{\vec r_1}{r_1} + \frac{2}{r_1} \frac{\vec r_2 - \vec r_1}{2r_{12} \left(1+\beta r_{12} \right)} \frac{\vec r_2}{r_2}
+ \end{align*}
+ Sorting this gives
+ \begin{align*}
+ 	\frac{2}{r_{12}(1+\beta r_{12})^2} - \frac{\vec r_1 \cdot \vec r_2}{r_{12} r_1^2 (1 +\beta r_{12})^2} - \frac{\vec r_1 \cdot \vec r_2}{r_{12} r_2^2 (1+\beta r_{12})^2}
+ \end{align*}
+ The second part for particle 1
+ \begin{align*}
+ 	\frac{1}{\Psi_C} \frac{\partial^2 }{\partial r^2} \Psi_C = \left( \frac{\vec r_1 - \vec r_2}{2r_{12} \left(1+\beta r_{12} \right)} \hat e_{r1} \right)^2 + \frac{\partial}{\partial r_1} \left( \frac{\vec r_1 - \vec r_2}{2r_{12} \left(1+\beta r_{12}  \right)} \hat e_{r1} \right) 
+ \end{align*}
+ \begin{align*}
+ 	\frac{1}{4(1+\beta r_{12})^4} + \frac{\beta}{(1+\beta r_{12})^3}
+ \end{align*}
+ Combining these calculations
+ \begin{align*}
+ 	 \frac{\nabla^2 \Psi_C}{\Psi_C} = \frac{1}{r_{12}(1+\beta r_{12})^2} + \frac{1}{4(1+\beta r_{12})^4} - \frac{\beta}{(1+\beta r_{12})^3}
+ \end{align*}
+ Combining, we get the $T_{L2}$
+ 
+ Giving the total local energy
+ \begin{align*}
+ 	E_{L2} = E_{L1} + \frac{1}{2(1+\beta r_{12})^2} \left[ \frac{\alpha (r1+r2)}{r_{12}} \left(1 - \frac{\vec r_1 \cdot \vec r_2}{r_1 r_2} \right) - \frac{1}{2(1+\beta r_{12})^2} - \frac{2}{r_{12}} + \frac{2 \beta}{1 + \beta r_{12}} \right]
+ \end{align*}
+
+
+
+ \end{section}
+
+ \end{document}
