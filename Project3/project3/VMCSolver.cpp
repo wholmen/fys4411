@@ -20,7 +20,7 @@ void VMCSolver::MCintegration(int N){
             Rold(i,j) = step * ( ran2(&idum) - 0.5);
         }
     }
-
+    atom.Initialize_System(Rold);
     Rnew = Rold;
 
     // Total loop for all the cycles
@@ -34,6 +34,7 @@ void VMCSolver::MCintegration(int N){
             }
             PsiNew = atom.WaveFunction(Rnew);
             if (ran2(&idum) <= PsiNew*PsiNew / (PsiOld*PsiOld) ){
+                atom.UpdateInverseSD(Rnew,i);
                 for (int j=0; j<Ndimensions; j++){
                     Rold(i,j) = Rnew(i,j);
                     PsiOld = PsiNew;
@@ -100,7 +101,6 @@ double VMCSolver::LocalEnergy(mat r){
             V += 1.0 / sqrt(TwoParticle);
         }
     }
-
     return V + T;
 }
 
@@ -109,10 +109,29 @@ double VMCSolver::LocalEnergyAnalytical(mat R){
     double T(0), V(0), TwoParticle(0), Singleparticle(0);
 
     T += atom.diff2_Slater(R);
-    //T += 2.0 * atom.diff_Slater_diff_Corrolation(R);
-    //T += atom.diff2_Corrolation(R);
-
+    T += 2.0 * atom.diff_Slater_diff_Corrolation(R);
+    T += atom.diff2_Corrolation(R);
     T = T * -0.5;
+    /*
+    double r1(0), r2(0), r12(0), r1r2(0), T1, T2, T3;
+    for (int i=0;i<Ndimensions;i++){
+        r1 += R(0,i)*R(0,i);
+        r2 += R(1,i)*R(1,i);
+        r12 += pow(R(0,i)-R(1,i),2);
+        r1r2 += R(0,i)*R(1,i);
+    }
+    r1 = sqrt(r1); r2 = sqrt(r2); r12 = sqrt(r12);
+    double alpha = 1.7; double beta = 0.3;
+
+    T1 = alpha/r1 + alpha/r2 - alpha*alpha;
+    T2 = 1.0/(2*pow(1+beta*r12,2)) * alpha*(r1+r2) / r12 * (1-r1r2/r1*r2);
+    T3 = 1.0/(2*pow(1+beta*r12,2)) * ( -1.0/(2*pow(1+beta*r12,2)) - 2/r12 + 2*beta/(1+beta*r12));
+    cout << T << " " << T1+T2+T3 << endl;
+    T = T1 + T2 + T3;
+    */
+    //cout << "T1 num: " << atom.diff2_Slater(R)*-0.5 << " Analytical: " << T1 << endl;
+    //cout << "T2 num: " << -atom.diff_Slater_diff_Corrolation(R) << " Analytical: " << T2 << endl;
+    //cout << "T3 num: " << atom.diff2_Corrolation(R)*-0.5 << " Analytical: " << T3 << endl;
 
     // Calculate potential energy for single particle
     for (int i=0; i<Nparticles; i++){
@@ -127,58 +146,8 @@ double VMCSolver::LocalEnergyAnalytical(mat R){
             TwoParticle = 0;
             for (int j=0; j<Ndimensions; j++) TwoParticle += (R(k,j) - R(i,j)) * (R(k,j) - R(i,j));
 
-            //V += 1.0 / sqrt(TwoParticle);
+            V += 1.0 / sqrt(TwoParticle);
         }
     }
     return T + V;
 }
-
-/*
-double VMCSolver::LocalEnergyAnalytical(mat R){
-    // return dell^2 psi_D / psi_D + dell^2 psi_C / psi_c + 2*dell Psi_D / Psi_D * dell Psi_C / Psi_C
-
-    // Calculating Kinetic energy
-    double E = 0;
-
-    // Calculating the derivatives in the kinetic energy
-    double SlaterTerm = 0; double CorrolationTerm = 0; double CrossTerm = 0;
-    for (int i=0; i<Nparticles; i++){
-
-        // Double derivative of Slater term, Psi_D
-        double ri = 0;
-        for (int j=0; j<Ndimensions; j++){
-            ri += R(i,j)*R(i,j);
-        }
-        ri = sqrt(ri);
-        SlaterTerm = SlaterTerm - 2*alpha/ri + alpha**2;
-
-        // Single derivatives giving the Cross terms, Psi_C
-        double rik = 0;
-        for (int k=0; k<Nparticles; k++){
-            for (int j=0; j<Ndimensions; j++){
-                rik += (R(i,j)-R(k,j))*(R(i,j)-R(k,j));
-                rirk += R(i,j)*R(k,j);
-            }
-            CrossTerm = CrossTerm - 2 * alpha * a / (rik * (1+beta*rik)) * (rirk / ri - ri);
-        }
-    }
-    // Double derivative of corrolation term
-    for (int k=0; k<Nparticles; k++){
-        for (int j=0; j<Nparticles; j++){
-            for (int i=0; i<Nparticles; i++){
-                for (int d=0; d<Ndimensions; d++);
-                    rk = ;
-                    ri =
-
-                CorrolationTerm += (rk - ri)*(rk - rj) / (rki * rkj) * a/(1+beta*rki)/(1+beta*rki) * a/(1+beta*rkj)/(1+beta*rkj);
-            }
-            CorrolationTerm += 2*a / (rkj*(1+beta*rkj)*(1+beta*rkj)) - 2*alpha*beta/ ( (1+beta*rkj)*(1+beta*rkj) );
-        }
-    }
-
-
-
-    return E;
-}
-
-*/

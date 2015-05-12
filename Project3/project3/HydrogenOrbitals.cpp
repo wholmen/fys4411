@@ -1,34 +1,43 @@
 #include <HydrogenOrbitals.h>
 
-double HydrogenOrbitals::psi1s(double r){return exp(-alpha*r);}
-
-double HydrogenOrbitals::psi2s(double r){return (1-alpha*r/2.0)*exp(-alpha*r/2.0);}
-
-double HydrogenOrbitals::psi2p(double r){return alpha*r*exp(-alpha*r/2.0);}
-
-double HydrogenOrbitals::psi(double r){
-    if (n==1) {return psi1s(r);}
-    else if (n==2) {
-        if (l==0) {return psi2s(r);}
-        if (l==1) {return psi2p(r);}
-        else {return false;}
+double HydrogenOrbitals::psi1s(double r, double d){
+    if (d == 0) return exp(-alpha*r);
+    if (d == 1) return exp(-alpha*r)*(-alpha);
+    if (d == 2) return exp(-alpha*r)*alpha* (alpha - 2/r);
+    else return false;
     }
-    else {return false;}
+
+double HydrogenOrbitals::psi2s(double r, double d){
+    if (d == 0) return (1-alpha*r/2.0)*exp(-alpha*r/2.0);
+    if (d == 1) return alpha*(0.25*alpha*r - 1.0)*exp(-0.5*alpha*r);
+    if (d == 2) return alpha*(alpha*r*(-0.125*alpha*r + 0.75) + 0.5*alpha*r - 2.0)*exp(-0.5*alpha*r)/r;
+    else return false;
 }
 
-/*
-double HydrogenOrbitals::diff2_psi1s(double r){return alpha*alpha - 2 / ; }
+double HydrogenOrbitals::psi2p(double r, double d){
+    if (d == 0) return alpha*r*exp(-alpha*r/2.0);
+    if (d == 1) return alpha*(-0.5*alpha*r + 1)*exp(-0.5*alpha*r);
+    if (d == 2) return alpha*(alpha*r*(0.25*alpha*r - 1.0) - 1.0*alpha*r + 2)*exp(-0.5*alpha*r)/r;
+    else return false;
+}
 
-double HydrogenOrbitals::diff2_psi2s(double r){return (1-alpha*r/2.0)*exp(-alpha*r/2.0);}
+double HydrogenOrbitals::psi(double r){
+    if (n==1) return psi1s(r,0);
+    else if (n==2 && l==0) return psi2s(r,0);
+    else if (n==2 && l==1) return psi2p(r,0);
+    else return false;
+}
 
-double HydrogenOrbitals::diff2_psi2p(double r){return alpha*r*exp(-alpha*r/2.0);}
+double HydrogenOrbitals::dpsi(double r){
+    if (n==1) return psi1s(r,1);
+    else if (n==2 && l==0) return psi2s(r,1);
+    else if (n==2 && l==1) return psi2p(r,1);
+    else return false;
+}
 
-double HydrogenOrbitals::diff2_psi(double r){
-    if (n==1) {return diff_psi1s(r);}
-    else if (n==2) {
-        if (l==0) {return diff_psi2s(r);}
-        if (l==1) {return diff_psi2p(r);}
-        else {return false;}
-    }
-    else {return false;}
-} */
+double HydrogenOrbitals::d2psi(double r){
+    if (n==1) return psi1s(r,2);
+    else if (n==2 && l==0) return psi2s(r,2);
+    else if (n==2 && l==1) return psi2p(r,2);
+    else return false;
+}

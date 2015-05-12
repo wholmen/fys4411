@@ -6,8 +6,6 @@
 using namespace std;
 using namespace arma;
 
-#define pi 3.1415
-
 vec ConjugateGradient(mat A, vec b, vec x0);
 
 class WaveFunction;
@@ -45,11 +43,16 @@ double WaveFunction::Helium(mat R){
 int main()
 {
 
-    WaveFunctions helium = WaveFunctions(4,2,4);
+    WaveFunctions helium = WaveFunctions(1.7,0.3,2);
     VMCSolver solve = VMCSolver(helium);
-    solve.AnalyticalEnergy = true;
-    solve.MCintegration(10);
+    //solve.AnalyticalEnergy = true;
+    solve.MCintegration(100000);
     cout << solve.Energy;
+
+
+    //solve.AnalyticalEnergy = false;
+    //solve.MCintegration(10000);
+    //cout << solve.Energy;
 
     return 0;
 }
