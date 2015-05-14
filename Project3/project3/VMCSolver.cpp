@@ -1,5 +1,15 @@
 #include <VMCSolver.h>
 
+void VMCSolver::FindStepLength(){
+    step = 0.2;
+    MCintegration(1000);
+    while (AcceptRate > 0.51 or AcceptRate < 0.49){
+        step += 0.05;
+        MCintegration(1000);
+        if (step > 2.5){break;}
+    }
+    cout << step;
+}
 
 void VMCSolver::MCintegration(int N){
     // A VMC method integral to compute QM expectation values
@@ -20,21 +30,21 @@ void VMCSolver::MCintegration(int N){
             Rold(i,j) = step * ( ran2(&idum) - 0.5);
         }
     }
-    atom.Initialize_System(Rold);
+    if (not HFBasis) atom.Initialize_System(Rold);
     Rnew = Rold;
 
     // Total loop for all the cycles
     for (int n=0; n<N; n++){
-        PsiOld = atom.WaveFunction(Rold);
+        PsiOld = (HFBasis) ? atom2.WaveFunction(Rold) : atom.WaveFunction(Rold);
 
         for (int i=0; i<Nparticles; i++){
 
             for (int j=0; j<Ndimensions; j++){
                 Rnew(i,j) = Rold(i,j) + step*( ran2(&idum) - 0.5);
             }
-            PsiNew = atom.WaveFunction(Rnew);
+            PsiNew = (HFBasis) ? atom2.WaveFunction(Rnew) : atom.WaveFunction(Rnew);
             if (ran2(&idum) <= PsiNew*PsiNew / (PsiOld*PsiOld) ){
-                atom.UpdateInverseSD(Rnew,i);
+                if (not HFBasis) atom.UpdateInverseSD(i, false);
                 for (int j=0; j<Ndimensions; j++){
                     Rold(i,j) = Rnew(i,j);
                     PsiOld = PsiNew;
@@ -57,13 +67,79 @@ void VMCSolver::MCintegration(int N){
     AcceptRate = AcceptStep / (N * Nparticles);
 }
 
+void VMCSolver::ImportanceSampling(double DT, int Nstep){
+    mat Rold = zeros<mat>(Nparticles,Ndimensions);
+    mat Rnew = zeros<mat>(Nparticles,Ndimensions);
+    mat QForceOld = zeros<mat>(Nparticles,Ndimensions);
+    mat QForceNew = zeros<mat>(Nparticles,Ndimensions);
+    double D(0.5), PsiOld(0), PsiNew(0), GreenFunction(0), Elocal, Etotal(0), Esquared(0), dt(DT);
+
+    for (int i=0; i<Nparticles; i++) for (int j=0; j<Ndimensions; j++) Rold(i,j) = GaussianDeviate(&idum) * dt;
+
+    if (not HFBasis) atom.Initialize_System(Rold);
+    PsiOld = atom.WaveFunction(Rold);
+    PsiNew = PsiOld;
+
+    for (int n=0; n<Nstep; n++){
+        PsiOld = atom.WaveFunction(Rold);
+        atom.QuantumForce(Rold, QForceOld);
+
+        // Test a movement
+        for (int i=0; i<Nparticles; i++){
+            for (int j=0; j<Ndimensions; j++){
+                Rnew(i,j) = Rold(i,j) + GaussianDeviate(&idum)*sqrt(dt) + D * dt * QForceOld(i,j);
+            }
+            for (int k=0; k<Nparticles; k++){
+                if (k != i){
+                    for (int j=0; j<Ndimensions; j++){
+                        Rnew(k,j) = Rold(k,j);
+                    }
+                }
+            }
+            GreenFunction = 0.0;
+            PsiNew = atom.WaveFunction(Rnew); // Dup and Ddown are updated.
+            if (not HFBasis) atom.UpdateInverseSD(i,true); // Make D-1 to compute Quantum force.
+            atom.QuantumForce(Rnew, QForceNew);
+
+
+            for (int j=0; j<Ndimensions; j++){
+                GreenFunction += 0.5*(QForceOld(i,j) + QForceNew(i,j)) * (0.5*D*dt*(QForceOld(i,j)-QForceNew(i,j)) - Rnew(i,j) + Rold(i,j));
+            }
+            GreenFunction = exp(GreenFunction);
+
+            // Check for move
+            if (ran2(&idum) <= GreenFunction * (PsiNew*PsiNew / (PsiOld*PsiOld))){
+                PsiOld = PsiNew;
+                //if (not HFBasis) atom.UpdateInverseSD(i); // Particle moved. Inverse D-1 must be updated
+                if (not HFBasis) atom.UpdateInverseQF(true); // true. Move is accepted. The D-1 created is now stored
+                for (int j=0; j<Ndimensions; j++){
+                    Rold(i,j) = Rnew(i,j);
+                    QForceOld(i,j) = QForceNew(i,j);
+                }
+            }
+            else {
+                if (not HFBasis) atom.UpdateInverseQF(false); // false. Move is declined. The D-1 created is tossed.
+                for (int j=0; j<Ndimensions; j++){
+                    Rnew(i,j) = Rold(i,j);
+                    QForceNew(i,j) = QForceOld(i,j);
+                }
+            }
+            Elocal = (AnalyticalEnergy == true) ? LocalEnergyAnalytical(Rnew) : LocalEnergy(Rnew);
+            Etotal += Elocal;
+            Esquared += Elocal * Elocal;
+        }
+    }
+    Energy = Etotal / (Nstep * Nparticles);
+    Esquared = Esquared / (Nstep * Nparticles);
+    Variance = - Energy*Energy + Esquared;
+}
 
 double VMCSolver::LocalEnergy(mat r){
     mat Rplus = zeros<mat>(Nparticles, Ndimensions);
     mat Rminus = zeros<mat>(Nparticles,Ndimensions);
 
     Rplus = Rminus = r;
-    double Psi = atom.WaveFunction(r);
+    double Psi = (HFBasis) ? atom2.WaveFunction(r) : atom.WaveFunction(r);
 
     // Calculating Kinectic energy
     double T = 0;
@@ -72,8 +148,8 @@ double VMCSolver::LocalEnergy(mat r){
             Rplus(i,j) = Rplus(i,j) + h;
             Rminus(i,j) = Rminus(i,j) - h;
 
-            double PsiMinus = atom.WaveFunction(Rminus);
-            double PsiPlus = atom.WaveFunction(Rplus);
+            double PsiMinus = (HFBasis) ? atom2.WaveFunction(Rminus) : atom.WaveFunction(Rminus);
+            double PsiPlus = (HFBasis) ? atom2.WaveFunction(Rplus) : atom.WaveFunction(Rplus);
             T -= (PsiMinus + PsiPlus - 2*Psi);
             Rplus(i,j) = r(i,j); Rminus(i,j) = r(i,j);
         }
@@ -108,30 +184,7 @@ double VMCSolver::LocalEnergyAnalytical(mat R){
     // Calculating Kinetic energy.
     double T(0), V(0), TwoParticle(0), Singleparticle(0);
 
-    T += atom.diff2_Slater(R);
-    T += 2.0 * atom.diff_Slater_diff_Corrolation(R);
-    T += atom.diff2_Corrolation(R);
-    T = T * -0.5;
-    /*
-    double r1(0), r2(0), r12(0), r1r2(0), T1, T2, T3;
-    for (int i=0;i<Ndimensions;i++){
-        r1 += R(0,i)*R(0,i);
-        r2 += R(1,i)*R(1,i);
-        r12 += pow(R(0,i)-R(1,i),2);
-        r1r2 += R(0,i)*R(1,i);
-    }
-    r1 = sqrt(r1); r2 = sqrt(r2); r12 = sqrt(r12);
-    double alpha = 1.7; double beta = 0.3;
-
-    T1 = alpha/r1 + alpha/r2 - alpha*alpha;
-    T2 = 1.0/(2*pow(1+beta*r12,2)) * alpha*(r1+r2) / r12 * (1-r1r2/r1*r2);
-    T3 = 1.0/(2*pow(1+beta*r12,2)) * ( -1.0/(2*pow(1+beta*r12,2)) - 2/r12 + 2*beta/(1+beta*r12));
-    cout << T << " " << T1+T2+T3 << endl;
-    T = T1 + T2 + T3;
-    */
-    //cout << "T1 num: " << atom.diff2_Slater(R)*-0.5 << " Analytical: " << T1 << endl;
-    //cout << "T2 num: " << -atom.diff_Slater_diff_Corrolation(R) << " Analytical: " << T2 << endl;
-    //cout << "T3 num: " << atom.diff2_Corrolation(R)*-0.5 << " Analytical: " << T3 << endl;
+    T = (HFBasis) ? atom2.KineticEnergy(R) : atom.KineticEnergy(R);
 
     // Calculate potential energy for single particle
     for (int i=0; i<Nparticles; i++){

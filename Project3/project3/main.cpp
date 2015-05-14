@@ -43,13 +43,26 @@ double WaveFunction::Helium(mat R){
 int main()
 {
 
-    WaveFunctions helium = WaveFunctions(1.7,0.3,2);
+    WaveFunctions helium = WaveFunctions(1.68,0.3,2);
     VMCSolver solve = VMCSolver(helium);
-    //solve.AnalyticalEnergy = true;
+    solve.AnalyticalEnergy = true;
     solve.MCintegration(100000);
-    cout << solve.Energy;
+    cout << solve.Energy << endl;
 
+    WaveFunctions helium1 = WaveFunctions(1.68,0.3,2);
+    VMCSolver solve1 = VMCSolver(helium1);
+    solve1.AnalyticalEnergy = true;
+    solve1.ImportanceSampling(0.005,100000);
+    cout << solve1.Energy;
 
+    /*
+    GaussianOrbitals helium2 = GaussianOrbitals(2);
+    VMCSolver solve2 = VMCSolver(helium2);
+    solve2.AnalyticalEnergy = false;
+    solve2.FindStepLength();
+    solve2.MCintegration(10000);
+    cout << solve2.Energy;
+    */
     //solve.AnalyticalEnergy = false;
     //solve.MCintegration(10000);
     //cout << solve.Energy;

@@ -118,8 +118,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		WaveFunctions.h \
 		HydrogenOrbitals.h \
 		lib.h \
-		GaussianOrbitals.h \
-		Orbitals.h ../project3/main.cpp \
+		GaussianOrbitals.h ../project3/main.cpp \
 		../project3/CG.cpp \
 		../project3/VMCSolver.cpp \
 		../project3/WaveFunctions.cpp \
@@ -305,9 +304,9 @@ compiler_clean:
 
 main.o: ../project3/main.cpp ../project3/WaveFunctions.h \
 		../project3/HydrogenOrbitals.h \
-		../project3/GaussianOrbitals.h \
 		../project3/VMCSolver.h \
-		../project3/lib.h
+		../project3/lib.h \
+		../project3/GaussianOrbitals.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../project3/main.cpp
 
 CG.o: ../project3/CG.cpp 
@@ -316,13 +315,12 @@ CG.o: ../project3/CG.cpp
 VMCSolver.o: ../project3/VMCSolver.cpp ../project3/VMCSolver.h \
 		../project3/WaveFunctions.h \
 		../project3/HydrogenOrbitals.h \
-		../project3/GaussianOrbitals.h \
-		../project3/lib.h
+		../project3/lib.h \
+		../project3/GaussianOrbitals.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o VMCSolver.o ../project3/VMCSolver.cpp
 
 WaveFunctions.o: ../project3/WaveFunctions.cpp ../project3/WaveFunctions.h \
-		../project3/HydrogenOrbitals.h \
-		../project3/GaussianOrbitals.h
+		../project3/HydrogenOrbitals.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o WaveFunctions.o ../project3/WaveFunctions.cpp
 
 HydrogenOrbitals.o: ../project3/HydrogenOrbitals.cpp ../project3/HydrogenOrbitals.h

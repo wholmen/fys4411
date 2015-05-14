@@ -17,6 +17,5 @@ HEADERS += \
     WaveFunctions.h \
     HydrogenOrbitals.h \
     lib.h \
-    GaussianOrbitals.h \
-    Orbitals.h
+    GaussianOrbitals.h
 

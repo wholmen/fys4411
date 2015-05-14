@@ -87,7 +87,7 @@ void WaveFunctions::UpdateInverseQF(bool Move){
     (Move) ? DinvDown = DinvDownQF : DinvDownQF = DinvDown;
 }
 
-void WaveFunctions::QuantumForce(mat r, mat &Qforce){
+void WaveFunctions::QuantumForce(mat r, mat &Qforce, int i){
     bool Analytical = true;
     if (Analytical){
         mat SDup(Np2,Np2), SDdown(Np2,Np2);

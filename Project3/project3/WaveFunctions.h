@@ -4,8 +4,6 @@
 #include <armadillo>
 #include <iostream>
 #include <HydrogenOrbitals.h>
-#include <GaussianOrbitals.h>
-//#include <Orbitals.h>
 
 using namespace std;
 using namespace arma;
@@ -19,19 +17,16 @@ private:
 
 public:
     int Nparticles, Ndimensions, Np2;
-    double alpha, beta;
-    bool GaussianBasis;
-    mat DinvUp, DinvDown, Dup, Ddown;
-    //HydrogenOrbitals *particles;
-    GaussianOrbitals *particles;
+    double alpha, beta, h;
+    mat DinvUp, DinvDown, DinvUpQF, DinvDownQF, Dup, Ddown;
+    HydrogenOrbitals *particles;
 
     // Initializing the class
     WaveFunctions(){}
-    WaveFunctions(double Alpha, double Beta, int nparticles): Nparticles(nparticles), Ndimensions(3), alpha(Alpha), beta(Beta), GaussianBasis(false)
+    WaveFunctions(double Alpha, double Beta, int nparticles): Nparticles(nparticles), Ndimensions(3), alpha(Alpha), beta(Beta), h(0.001)
     {
     Np2 = Nparticles/2;
-    particles = new GaussianOrbitals[Nparticles]; GaussianBasis = true;
-    //particles = new HydrogenOrbitals[Nparticles];
+    particles = new HydrogenOrbitals[Nparticles];
     Dup = zeros<mat>(Np2,Np2); Ddown = zeros<mat>(Np2,Np2);
     }
 
@@ -39,15 +34,18 @@ public:
 
     // Initializing the system
     void Initialize_System(mat r);
-    void UpdateInverseSD(mat R, int i);
+    void UpdateInverseSD(int i, bool QF);
+    void UpdateInverseQF(bool Move);
+    void FactorizeDeterminant(mat &SDup, mat &SDdown, mat R, int d);
 
     // This Function returns the wave function
     double WaveFunction(mat r);
 
+    // Calculating quantum force
+    void QuantumForce(mat r, mat &Qforce);
+
     // To calculate kinetic energy
-    double diff2_Slater(mat R);
-    double diff_Slater_diff_Corrolation(mat R);
-    double diff2_Corrolation(mat R);
+    double KineticEnergy(mat R);
 };
 
 

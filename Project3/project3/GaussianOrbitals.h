@@ -12,19 +12,22 @@ using namespace arma;
 class GaussianOrbitals
 {
 private:
-    double GTO(double r, double xi);
-    double dGTO(double r, double xi);
-    double d2GTO(double r, double xi);
+    double Normalization(double exp, int i, int j, int k);
+    double factorial(int a);
+    double Xi(double w, double exp, double x, double y, double z, int i, int j, int k);
+
 public:
-    int n,l,ml,ms,Nparticles;
-    double alpha;
+    int Nparticles, Ndimensions;
+
     GaussianOrbitals() {}
-    GaussianOrbitals(int n1, int l1, int ml1, int ms1, double a, int Nparticles1): n(n1), l(l1), ml(ml1), ms(ms1), Nparticles(Nparticles1), alpha(a) {
+    GaussianOrbitals(int nparticles): Nparticles(nparticles), Ndimensions(3) {
 
     }
-    double psi(double r);
+    double WaveFunction(mat R);
     double dpsi(double r);
     double d2psi(double r);
+
+    double KineticEnergy(mat R);
 };
 
 #endif // GAUSSIANORBITALS_H
