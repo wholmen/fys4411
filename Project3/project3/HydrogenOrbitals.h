@@ -3,6 +3,7 @@
 
 #include <armadillo>
 #include <iostream>
+#include <complex>
 
 using namespace std;
 using namespace arma;

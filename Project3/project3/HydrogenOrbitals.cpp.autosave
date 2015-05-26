@@ -26,9 +26,10 @@ double HydrogenOrbitals::psi2p(double r, double d){
     //if (ml == 1) Y = sqrt(3/8/pi)*sin(theta)*exp(-i*phi);
     //if (ml == -1)Y = sqrt(3/8/pi)*sin(theta)*exp( i*phi);
 
-    if (d == 0 && ml == -1) return (alpha*r*exp(-alpha*r/2.0));
-    if (d == 0 && ml == 0) return (alpha*r*exp(-alpha*r/4.0));
-    if (d == 0 && ml == 1) return (alpha*r*exp(-alpha*r/8.0));
+    if (d == 0) return (alpha*r*exp(-alpha*r/2.0));
+    //if (d == 0 && ml == -1) return (alpha*r*exp(-alpha*r/2.0));
+    //if (d == 0 && ml == 0) return (alpha*r*exp(-alpha*r/4.0));
+    //if (d == 0 && ml == 1) return (alpha*r*exp(-alpha*r/8.0));
     if (d == 1) return (alpha*(-0.5*alpha*r + 1)*exp(-0.5*alpha*r));
     if (d == 2) return (alpha*(alpha*r*(0.25*alpha*r - 1.0) - 1.0*alpha*r + 2)*exp(-0.5*alpha*r)/r);
     else return false;

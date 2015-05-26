@@ -1,0 +1,13 @@
+Mean value of all 4 cores. Run number 0
+Alpha:    3.65
+Beta:     0.6
+Step:     1.15
+Energy:   -14.3423
+Variance: 5.49101
+Error:    2.34329
+
+Mean values for all runs.
+Mean Energy:   -14.3423
+Mean Variance: 5.49101
+Mean Error:    2.34329
+Total time needed: 28.4067

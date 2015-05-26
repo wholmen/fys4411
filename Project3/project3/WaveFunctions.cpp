@@ -34,12 +34,11 @@ void WaveFunctions::Initialize_System(mat r){
     DinvUpQF = DinvUp; DinvDownQF = DinvDown;
 }
 
-double WaveFunctions::WaveFunction(mat r){
+double WaveFunctions::WaveFunction(mat r, bool DifferentiateBeta){
     // Computing the Slater matrix using the list above. Splitting determinant into Dup and Ddown
     double SD, corrolation(1), a(0), d;
 
     FactorizeDeterminant(Dup,Ddown,r,0);
-
     SD = det(Dup) * det(Ddown);
 
     // Computing the Corrolation factor
@@ -47,14 +46,16 @@ double WaveFunctions::WaveFunction(mat r){
         for (int j=0; j<i; j++){
             (particles[i].ms == particles[j].ms) ? a = 0.25: a = 0.5;
             d = distance(r.row(i), r.row(j));
-            corrolation *= exp( (a*d) / (1.0 + beta*d));
+            if (DifferentiateBeta) corrolation *= -a*d*d / pow((1 + beta*d),2) * exp( (a*d) / (1.0 + beta*d));
+            else corrolation *= exp( (a*d) / (1.0 + beta*d));
         }
     }
     return SD*corrolation; // Returning the Slater determinant mulitplied with the Jastrow factor.
 }
 
 void WaveFunctions::UpdateInverseSD(int i, bool QF){
-    // Step accepted, now update the inverse matrices.
+    // bool QF determines wether we update inverse matrix for computing the quantum force. If QF==true, the updated D-1 will not
+    // be used to compute ELocal, but will be used to update QForceNew. Function UpdateInverseQF will update D-1 to compute EL. Called if move is accepted.
     mat DinvUpNew = zeros<mat>(Np2,Np2); mat DinvDownNew = zeros<mat>(Np2,Np2); double Sj(0), detratio(0); int j,l;
 
     if (i < Np2) for (l=0; l<Np2; l++) {detratio += Dup(l,i) * DinvUp(l,i);}
@@ -83,12 +84,15 @@ void WaveFunctions::UpdateInverseSD(int i, bool QF){
 }
 
 void WaveFunctions::UpdateInverseQF(bool Move){
+    // If move is accepted. DinvUp and DinvDown must be updated. Since we have already computed them, but stored them in the intermidiate values
+    // DinvUpQF and DinvDownQF, we can obtain the values from them.
     (Move) ? DinvUp = DinvUpQF : DinvUpQF = DinvUp;
     (Move) ? DinvDown = DinvDownQF : DinvDownQF = DinvDown;
 }
 
 void WaveFunctions::QuantumForce(mat r, mat &Qforce){
-    bool Analytical = true;
+    bool Analytical = false;
+
     if (Analytical){
         mat SDup(Np2,Np2), SDdown(Np2,Np2);
         FactorizeDeterminant(SDup,SDdown,r,1);
@@ -102,13 +106,13 @@ void WaveFunctions::QuantumForce(mat r, mat &Qforce){
             if (i < Np2) for (j=0; j<Np2; j++) detpart += SDup(j,i) * DinvUpQF(j,i) * r.row(i) / length(r.row(i));
             else         for (j=0; j<Np2; j++) detpart += SDdown(j,i-Np2) * DinvDownQF(j,i-Np2) * r.row(i) / length(r.row(i));
 
-            for (j=0; j<Nparticles; j++){
+            for (int j=0; j<Nparticles; j++){
                 if (i==j) continue;
                 rij = r.row(i)-r.row(j); Rij = length(rij);
                 a = (particles[i].ms == particles[j].ms) ? 0.25 : 0.5;
                 Jastrow += rij / Rij * a / pow(1+beta*Rij,2);
             }
-            Qforce.row(i) = detpart + Jastrow;
+            Qforce.row(i) = 2*(detpart + Jastrow);
         }
     }
     else{
@@ -117,14 +121,14 @@ void WaveFunctions::QuantumForce(mat r, mat &Qforce){
         double Psiplus = 0; double Psiminus = 0;
 
         Rplus = Rminus = r;
-        double Psi = WaveFunction(r);
+        double Psi = WaveFunction(r,false);
 
         for (int i=0; i<Nparticles; i++){
             for (int j=0; j<Ndimensions; j++){
                 Rplus(i,j)  += h;
                 Rminus(i,j) -= h;
-                Psiplus = WaveFunction(Rplus);
-                Psiminus = WaveFunction(Rminus);
+                Psiplus = WaveFunction(Rplus,false);
+                Psiminus = WaveFunction(Rminus,false);
 
                 Qforce(i,j) = Psiplus - Psiminus;
                 Rplus(i,j) = r(i,j); Rminus(i,j) = r(i,j);

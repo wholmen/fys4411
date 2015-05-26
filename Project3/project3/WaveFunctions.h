@@ -39,7 +39,7 @@ public:
     void FactorizeDeterminant(mat &SDup, mat &SDdown, mat R, int d);
 
     // This Function returns the wave function
-    double WaveFunction(mat r);
+    double WaveFunction(mat r, bool DifferentiateBeta);
 
     // Calculating quantum force
     void QuantumForce(mat r, mat &Qforce);

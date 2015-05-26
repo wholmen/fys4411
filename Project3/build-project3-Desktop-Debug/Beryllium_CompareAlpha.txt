@@ -1,0 +1,165 @@
+Mean value of all 4 cores. Run number 0
+Alpha:    3
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.1429
+Variance: 16.4069
+Error:    4.05054
+
+Mean value of all 4 cores. Run number 1
+Alpha:    3.05
+Beta:     0.605291
+Step:     1.2
+Energy:   -13.9729
+Variance: 17.1121
+Error:    4.13668
+
+Mean value of all 4 cores. Run number 2
+Alpha:    3.1
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.1166
+Variance: 10.8468
+Error:    3.29345
+
+Mean value of all 4 cores. Run number 3
+Alpha:    3.15
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.1853
+Variance: 11.06
+Error:    3.32565
+
+Mean value of all 4 cores. Run number 4
+Alpha:    3.2
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.1159
+Variance: 16.1926
+Error:    4.024
+
+Mean value of all 4 cores. Run number 5
+Alpha:    3.25
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.2704
+Variance: 9.48352
+Error:    3.07953
+
+Mean value of all 4 cores. Run number 6
+Alpha:    3.3
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.3897
+Variance: 7.91774
+Error:    2.81385
+
+Mean value of all 4 cores. Run number 7
+Alpha:    3.35
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.5294
+Variance: 38.1843
+Error:    6.17934
+
+Mean value of all 4 cores. Run number 8
+Alpha:    3.4
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.271
+Variance: 4.97298
+Error:    2.23002
+
+Mean value of all 4 cores. Run number 9
+Alpha:    3.45
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.3056
+Variance: 4.49349
+Error:    2.11978
+
+Mean value of all 4 cores. Run number 10
+Alpha:    3.5
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.4162
+Variance: 6.29038
+Error:    2.50806
+
+Mean value of all 4 cores. Run number 11
+Alpha:    3.55
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.5384
+Variance: 7.4935
+Error:    2.73743
+
+Mean value of all 4 cores. Run number 12
+Alpha:    3.6
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.4331
+Variance: 55.8562
+Error:    7.4737
+
+Mean value of all 4 cores. Run number 13
+Alpha:    3.65
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.6104
+Variance: 4.45834
+Error:    2.11148
+
+Mean value of all 4 cores. Run number 14
+Alpha:    3.7
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.4396
+Variance: 2.57569
+Error:    1.6049
+
+Mean value of all 4 cores. Run number 15
+Alpha:    3.75
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.4105
+Variance: 1.94759
+Error:    1.39556
+
+Mean value of all 4 cores. Run number 16
+Alpha:    3.8
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.4109
+Variance: 1.82803
+Error:    1.35205
+
+Mean value of all 4 cores. Run number 17
+Alpha:    3.85
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.2503
+Variance: 518.787
+Error:    22.7769
+
+Mean value of all 4 cores. Run number 18
+Alpha:    3.9
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.2838
+Variance: 1.20879
+Error:    1.09945
+
+Mean value of all 4 cores. Run number 19
+Alpha:    3.95
+Beta:     0.605291
+Step:     1.2
+Energy:   -14.1731
+Variance: 167.25
+Error:    12.9325
+
+Mean values for all runs.
+Mean Energy:   -14.3133
+Mean Variance: 45.2442
+Mean Error:    6.72638
+Total time needed: 254.216
