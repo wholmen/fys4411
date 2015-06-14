@@ -11,7 +11,7 @@
 using namespace std;
 using namespace arma;
 
-ofstream myfile, blocking_file;
+//ofstream myfile, blocking_file;
 
 int numprocs, my_rank, NstepTotal, NstepSteepestDescent;
 double Etotal(0), Elocal(0), E2total(0), E2local(0), variance(0);
@@ -21,10 +21,10 @@ double time_start, time_stop, total_time;
 int main(int argc, char* argv[])
 {
     // Define what particle we are solving
-    double Nparticles = 10; double alpha = 8.0; double alpha2; // Helium
+    double Nparticles = 4; double alpha = 3.5; double alpha2; // Helium
     //double Nparticles = 4; double alpha = 3.5; // Beryllium
 
-    int Ncycles = 1; int Nsteps = 1e3; // Ncycles: How many times to run MCIntegration for each each core. Nsteps: Iterations in MCIntegration
+    int Ncycles = 1; int Nsteps = 1e5; // Ncycles: How many times to run MCIntegration for each each core. Nsteps: Iterations in MCIntegration
     NstepTotal = Nsteps*Nparticles;
     vec CycleE(Ncycles), CycleE2(Ncycles), TotalCycleE(Ncycles), TotalCycleE2(Ncycles), AllEnergies(NstepTotal); mat AllPositions(NstepTotal,Nparticles);
 
@@ -35,11 +35,11 @@ int main(int argc, char* argv[])
     time_start = MPI_Wtime();
 
     // Opening files for writing
-    if (my_rank == 0) myfile.open("Neon.txt");
-    ostringstream oss;
-    oss << "Beryllium_my_rank_" << my_rank << ".txt";
-    string var = oss.str();
-    blocking_file.open(var.c_str());
+    //if (my_rank == 0) myfile.open("Beryllium_testing.txt");
+    //ostringstream oss;
+    //oss << "Beryllium_my_rank_" << my_rank << ".txt";
+    //string var = oss.str();
+    //blocking_file.open(var.c_str());
 
     // Setting up the solver class
     WaveFunctions helium = WaveFunctions(alpha,beta_old,Nparticles);
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
         beta_old = 0; beta_new = 0.6;
         Steepest_step = 0.1; // Around 0.1 is ok if beta_new is really close to optimal beta (~0.7)
         precision = 0.00001;
-        alpha2 = 8.0;
+        alpha2 = 3.5;
         //alpha2 = alpha + nc*0.05;
 
         int n = 0; NstepSteepestDescent = 1000;
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
             solve.MCintegration_FindVariables(NstepSteepestDescent,beta_old, alpha2);
             beta_new = beta_old - Steepest_step*solve.DiffEbeta;
 
-            if (my_rank==1) cout << beta_new << endl;
+            if (my_rank==1) cout << "Beta: " << beta_new << endl;
             n++;
         }
         // Steepest descent method over. beta_new is the optimal beta.
@@ -85,35 +85,36 @@ int main(int argc, char* argv[])
             Etotal += TotalCycleE(i); Elocal = TotalCycleE(i) / numprocs;
             E2total += TotalCycleE2(i); E2local = TotalCycleE2(i) / numprocs;
             variance = E2local - Elocal*Elocal;
-            myfile << "Mean value of all " << numprocs << " cores. Run number " << i << endl;
-            myfile << "Alpha:    " << alpha2 << endl;
-            myfile << "Beta:     " << beta_new << endl;
-            myfile << "Step:     " << solve.step << endl;
-            myfile << "Energy:   " << Elocal << endl;
-            myfile << "Variance: " << variance << endl;
-            myfile << "Error:    " << sqrt(variance) << endl << endl;
+            //myfile << "Mean value of all " << numprocs << " cores. Run number " << i << endl;
+            //myfile << "Alpha:    " << alpha2 << endl;
+            //myfile << "Beta:     " << beta_new << endl;
+            //myfile << "Step:     " << solve.step << endl;
+            //myfile << "Energy:   " << Elocal << endl;
+            //myfile << "Variance: " << variance << endl;
+            //myfile << "Error:    " << sqrt(variance) << endl << endl;
         }
-        myfile << "Mean values for all runs." << endl;
-        myfile << "Mean Energy:   " << Etotal / numprocs / Ncycles << endl;
+        //myfile << "Mean values for all runs." << endl;
+        //myfile << "Mean Energy:   " << Etotal / numprocs / Ncycles << endl;
         variance = E2total / numprocs / Ncycles - Etotal*Etotal / numprocs / numprocs / Ncycles / Ncycles;
-        myfile << "Mean Variance: " << variance  << endl;
-        myfile << "Mean Error:    " << sqrt(variance) << endl;
-        myfile << "Total time needed: " << total_time;
-        myfile.close();
+        //myfile << "Mean Variance: " << variance  << endl;
+        //myfile << "Mean Error:    " << sqrt(variance) << endl;
+        //myfile << "Total time needed: " << total_time;
+        //myfile.close();
     }
 
-    blocking_file << Nsteps << " " << NstepTotal << endl;
+    //blocking_file << Nsteps << " " << NstepTotal << endl;
     for (int i=0; i<NstepTotal; i++){
-        blocking_file << AllEnergies(i) << " ";
-        for (int p=0; p<Nparticles; p++) blocking_file << AllPositions(i,p) << " ";
-        blocking_file << endl;
+        //blocking_file << AllEnergies(i) << " ";
+        //for (int p=0; p<Nparticles; p++) blocking_file << AllPositions(i,p) << " ";
+        //blocking_file << endl;
     }
 
-    blocking_file.close();
-    //cout << Etotal / 4.0 << endl;
+    //blocking_file.close();
+    cout << Etotal / 4.0 << endl;
 
     MPI_Finalize();
 
+    cout << Etotal / 4.0 << endl;
     return 0;
 }
 

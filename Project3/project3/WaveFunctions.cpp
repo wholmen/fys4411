@@ -27,11 +27,16 @@ void WaveFunctions::Initialize_System(mat r){
             }
         }
     }
+    // for (int i=0; i<10; i++){ cout << particles[i].n << particles[i].l << particles[i].ml << particles[i].ms << endl; }
     // Computing the Slater matrix using the list above. Splitting determinant into Dup and Ddown
     FactorizeDeterminant(Dup,Ddown,r,0);
 
+    for (int i=0; i<10; i++) { cout << particles[i].l; }
+
+    cout << 1;
     DinvUp = inv(Dup); DinvDown = inv(Ddown);
     DinvUpQF = DinvUp; DinvDownQF = DinvDown;
+    cout << 2;
 }
 
 double WaveFunctions::WaveFunction(mat r, bool DifferentiateBeta){
@@ -205,86 +210,19 @@ double WaveFunctions::KineticEnergy(mat R){
 }
 
 
-/*
-int y, e, i, j;
-//mat Dup(Np2,Np2), Ddown(Np2,Np2);
-
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 0) continue;
-        Dup(e,j) = particles[i].psi(length(r.row(j)));
-        if (j == Np2 - 1) e++; // increasing index in Dup
-    }
-}
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 1) continue;
-        y = j + Np2;
-        Ddown(e,j) = particles[i].psi(length(r.row(y)));
-        if (j == Np2 -1) e++;
-    }
-} */
-
-
-//mat Dup(Np2,Np2), Ddown(Np2,Np2);
-/*
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 0) continue;
-        Dup(e,j) = particles[i].psi(length(r.row(j)));
-        if (j == Np2 - 1) e++; // increasing index in Dup
-    }
-}
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 1) continue;
-        y = j + Np2;
-        Ddown(e,j) = particles[i].psi(length(r.row(y)));
-        if (j == Np2 -1) e++;
-    }
-} */
-
-
-/*
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 0) continue;
-        D2up(e,j) = particles[i].d2psi(length(R.row(j)));
-        D1up(e,j) = particles[i].dpsi(length(R.row(j)));
-        if (j == Np2 - 1) e++; // increasing index in Dup
-    }
-}
-for (e=0, i=0; i<Nparticles; i++){
-    for (j=0; j<Np2; j++){
-        if (particles[i].ms != 1) continue;
-        y = j + Np2;
-        D2down(e,j) = particles[i].d2psi(length(R.row(y)));
-        D1down(e,j) = particles[i].dpsi(length(R.row(y)));
-        if (j == Np2 -1) e++;
-    }
-}*/
 
 
 
 
 
-/*
-mat Rplus = zeros<mat>(Nparticles,Ndimensions);
-mat Rminus = zeros<mat>(Nparticles,Ndimensions);
-double Psiplus = 0; double Psiminus = 0;
 
-Rplus = Rminus = r;
-double Psi = WaveFunction(r);
 
-for (int i=0; i<Nparticles; i++){
-    for (int j=0; j<Ndimensions; j++){
-        Rplus(i,j)  += h;
-        Rminus(i,j) -= h;
-        Psiplus = WaveFunction(Rplus);
-        Psiminus = WaveFunction(Rminus);
 
-        Qforce(i,j) = Psiplus - Psiminus;
-        Rplus(i,j) = r(i,j); Rminus(i,j) = r(i,j);
-    }
-}
-Qforce = Qforce / h / Psi; */
+
+
+
+
+
+
+
+

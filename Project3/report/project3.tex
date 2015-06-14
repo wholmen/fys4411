@@ -35,7 +35,174 @@
  \maketitle
  \newpage
 
- \section*{Variational Monte-Carlo for the Helium atom}
+ \tableofcontents
+
+ \newpage
+
+\begin{subsection}*{Abstract}
+	
+\end{subsection}
+
+\begin{section}{Introduction}
+	
+\end{section}
+
+\begin{section}{Quantum mechanics}
+ The goal of this project is to calculate the ground state energy for three different atoms. The Helium atom, the Beryllium atom and the Neon atom. The energy in a quantum mechanical system is found by solving the time-independent Schrodinger equation for the system. 
+ \begin{align}
+ 	\hat H \left| \Phi \right> = E \left| \Psi \right>
+ \end{align}
+ There are many solutions to this eigenvalue equation, and we are looking for the lowest possible value for $E$, i.e. the ground state energy $E_0$. The Hamiltonain is given as the total energy operator
+ \begin{align}
+ 	\hat H = \hat T + \hat V
+ \end{align}
+ where $\hat T$ is the kinetic energy operator, and $\hat V$ is the operator for potential energy.  
+
+ \begin{subsection}{The Hydrogen atom}
+ We can calculate a closed-form solution for the eigenstates $\left| \Psi_n \right> $ and their respective energies $E_n$ for the Hydrogen atom.  
+ \end{subsection}
+
+ \begin{subsection}{The Helium atom}
+ 	
+ \end{subsection}
+
+ \begin{subsection}{Variational principle}
+ 	
+ \end{subsection}
+
+
+\end{section}
+\newpage
+
+\begin{section}{The trial wavefunction}
+  We are looking for a solution to the time independent Schrodinger equation
+  \begin{align}
+  	\hat H \left| \Phi_0 \right> = E_0 \left| \Psi_0 \right>
+  \end{align}
+  However, we do not have the exact ground state wavefunction. We will therefore guess on a wavefunction for our system. We call this a trial wavefunction, $\left| \Psi_T \right>$. Keeping the variational principle in mind, we can let this wavefunction depend on a variational paramater, $\alpha$. By varying, $\alpha$, we are looking for the minimum value of the function
+  \begin{align}
+  	E_0 = \left< \Psi_T(\alpha) \right| \hat H \left| \Psi_T(\alpha) \right> 
+  \end{align}
+  Any many-particle wave function can be written as a linear combination of single particle wave functions.
+  \begin{align}
+  	\left| \Psi \right> = \sum_i c_i \left|phi_i \right> 
+  \end{align}
+  and when we want an ansatz for the trial wavefunction, we usually choose which single particle wavefunctions we want to work with. This is because we can get a nice closed-form solutions for each of the one-particle energies
+  \begin{align}
+  	\hat h_i \left| \phi_i \right> = \epsilon_i \left| \phi_i \right>	
+  \end{align} 
+  In this project I have done the calculations for two different one-particle wavefunctions. Namely the Hydrogen orbitals and Gaussian-type orbitals. 
+
+  
+ \begin{subsection}{The Slater determinant}
+  When we want to make a general ansatz for the ground state wavefunction for a multi-particle wavefunction, we normally represent it by a slater determinant. 
+  \begin{align}
+  	\left| \Psi \right>_{SD} = \frac{1}{\sqrt{N!}}\left| \begin{matrix}
+  		 							 \phi_1 (r_1)  &  \phi_1 (r_2)  & ... &  \phi_1 (r_N)  \\
+  		 							 \phi_2 (r_1)  &  \phi_2 (r_2)  & ... &  \phi_2 (r_N)  \\
+  		 							.. & .. & .. & .. \\
+  		 							 \phi_N (r_1)  & \phi_N (r_2)  & ... &  \phi_N (r_N)  
+  	                            \end{matrix} \right|
+  \end{align}
+  This way of writing the wave function satisfies the Pauli principle, because of the sign change due to a change in particles. 
+  This Slater as written is zero since the spation wave functions for the spin up and spin down states are equal. We can rewrite the Slater determinant into a product of two smaller Slater determinants. One for spin up and one for spin down. Taking Beryllium as an example
+  \begin{align}
+  	\left| \Psi \right>_{SD} = \left| \begin{matrix}
+  		 							 \phi_{100 \uparrow} (r_1)  &  \phi_{100 \uparrow} (r_2)  & \phi_{100 \uparrow} (r_3) &  \phi_{100 \uparrow} (r_4)  \\
+  		 							 \phi_{100 \downarrow} (r_1)  &  \phi_{100 \downarrow} (r_2)  & \phi_{100 \downarrow}(r_3) &  \phi_{100 \downarrow} (r_4)  \\
+  		 							\phi_{200 \uparrow} (r_1)  &  \phi_{200 \uparrow} (r_2)  & \phi_{200 \uparrow} (r_3) &  \phi_{200 \uparrow} (r_4) \\
+  		 							 \phi_{200 \downarrow} (r_1)  &  \phi_{200 \downarrow} (r_2)  & \phi_{200 \downarrow}(r_3) &  \phi_{200 \downarrow} (r_4) 
+  	                            \end{matrix} \right|
+  \end{align}
+  It can be shown that this is equal to the product
+  \begin{align}
+  	\text{det}\uparrow(r_1,r_2) \cdot \text{det}\downarrow(r_3,r_4) 
+  \end{align}
+  where
+  \begin{align}
+  	\text{det}\uparrow(r_1,r_2) = \left| \begin{matrix}
+  		\phi_{100 \uparrow} (r_1)  &  \phi_{100 \uparrow} (r_2) \\ \phi_{200 \uparrow} (r_1)  &  \phi_{200 \uparrow} (r_2)
+  	\end{matrix} \right|
+  \end{align}
+  and
+  \begin{align}
+  	 \text{det}\downarrow(r_3,r_4) = \left| \begin{matrix}
+  	 	\phi_{100 \downarrow}(r_3) &  \phi_{100 \downarrow} (r_4)  \\ \phi_{200 \downarrow}(r_3) &  \phi_{200 \downarrow} (r_4)
+  	 \end{matrix} \right|
+  \end{align}
+  This ansatz is however not antisymmetric under the exchange of particles, but it will provide the same expectation value as the full Slater determinant. This splitting of the Slater determinant requires that the Hamiltonian is independent of spin and that we have an even number of particles. Both are fullfilled for this project. This splitting will also provide a small computational benefit because we will compute smaller determinants.
+  \end{subsection}
+
+ \begin{subsection}{Hydrogen orbitals}
+  The hydrogen orbitals are the different eigenstates for the Hydrogen atom. We can make an ansatz for our trial wave function that use the lowest possible hydrogen orbitals as our one-particle wavefunctions. For helium, that means we fill up the two 1s-states. 
+ \begin{figure}[H]
+  	\centering
+  	\includegraphics{orbitals.pdf}
+  	\caption{Figure showing which hydrogen orbitals are occupied for Neon}
+  \end{figure}
+  If we disregard the interaction term in the Hamiltonian, this will give the exact result for the system. I have later used this to verify that the code produces the right energies. \par
+  For Helium we get
+  \begin{align}
+  	\Psi_0 = \phi_{1s}(\vec r_1) \phi_{1s}(\vec r_2) \propto e^{-Z(r_1+r_2)} 
+  \end{align}
+  \begin{align}
+  	E_0 = -\frac{Z^2}{2} - \frac{Z^2}{2} = -4
+  \end{align}
+  While Beryllium gives
+  \begin{align}
+  	E_{0, Be} = -2\frac{Z^2}{2} - 2 \frac{Z^2}{8} = -16 - 4 = -20
+  \end{align}
+  And ground state energy for Neon is $-200$. \par
+  We cannot neglect the interaction between the electrons, so introduce a variational paramater $\alpha$ instead of the charge $Z$ in the exponent. Using the variational principle, we will vary this $\alpha$ until we get the lowest possible energy. 
+ \end{subsection}
+ \begin{subsection}{The Jastrow factor}
+  As we will see later, the hydrogen orbitals is not a very good approximation to the ground state energy. We can take the interraction between the electrons into account in the wavefunction. This corrolation factor is known as the Padé-Jastrow factor and is on the form
+  \begin{align}
+  	\Psi_C = \prod_{i<j}^N e^{\frac{ar_{ij}}{1+\beta r_{ij}}}; \quad \quad r_{ij} = \left| \vec r_i - \vec r_j \right| 
+  \end{align}
+  Here $a=0.25$ if electron $i$ and $j$ have equal spin. Otherwise $a =0.5$. The Jastrow factor accounts for a small amount of the total energy. This is as expected because the interaction between the nucleus and the electrons are much stronger than the electron-electron repulsion. 
+ \end{subsection}
+ \begin{subsection}{Implemented wavefunctions}
+  I have introduced two variational paramaters, namely $\alpha$ and $\beta$. For all three atoms, these are the parametres I will vary until I get the lowest possible energy. \par 
+  Helium has two particles only, and splitting the Slater determinant results in two $1x1$ determinants, which can be written without the determinant sign. 
+  \begin{align}
+  	\Psi_T = \phi_{100 \uparrow}(\vec r_1) \phi_{100 \downarrow}(\vec r_2) \Psi_C(r12) = e^{-\alpha (r1+r2)} \text{exp}(\frac{r_{12}}{2(1+\beta r_{12})})
+  \end{align}
+
+  The Beryllium and Neon wave functions iare given by the spin-up and spin-down determinants defined above
+  \begin{align}
+  	\Psi_T = \text{det}\uparrow(r_1,r_2) \cdot \text{det}\downarrow(r_3,r_4) \prod_{i<j}^N e^{\frac{ar_{ij}}{1+\beta r_{ij}}}
+  \end{align}
+  where the Neon determinants are $5x5$ matrices given as
+  \begin{align}
+  	\text{det}\uparrow = \left| \begin{matrix}
+	 	\phi_{100 \uparrow} (r_1)  &  \phi_{100 \uparrow} (r_2)  & \phi_{100 \uparrow} (r_3) &  \phi_{100 \uparrow} (r_4) & \phi_{100 \uparrow} (r_5) \\
+		\phi_{200 \uparrow} (r_1)  &  \phi_{200 \uparrow} (r_2)  & \phi_{200 \uparrow} (r_3) &  \phi_{200 \uparrow} (r_4) & \phi_{200 \uparrow} (r_5) \\
+		\phi_{21-1 \uparrow} (r_1)  &  \phi_{21-1 \uparrow} (r_2)  & \phi_{21-1 \uparrow} (r_3) &  \phi_{21-1 \uparrow} (r_4) & \phi_{21-1 \uparrow} (r_5) \\
+		\phi_{210 \uparrow} (r_1)  &  \phi_{210 \uparrow} (r_2)  & \phi_{210 \uparrow} (r_3) &  \phi_{210 \uparrow} (r_4) & \phi_{210 \uparrow} (r_5) \\
+		\phi_{211 \uparrow} (r_1)  &  \phi_{211 \uparrow} (r_2)  & \phi_{211 \uparrow} (r_3) &  \phi_{211 \uparrow} (r_4) & \phi_{211 \uparrow} (r_5) \\			
+           	     \end{matrix} \right|
+  \end{align}
+ \end{subsection}
+
+ \begin{subsection}{Gaussian type orbitals}
+  Trying and testing for the best $\alpha$ is a crude and unprecise way of finding the optimal parameter. A better method to find the ground state energy is doing a Hartree-Fock calculation.  
+ \end{subsection}
+\end{section}
+
+\begin{section}{Variational Monte Carlo method}
+	
+\end{section}
+
+\begin{section}{implementation}
+	
+\end{section}
+
+\begin{section}{Results}
+	
+\end{section}
+
+ \begin{section}{Variational Monte-Carlo for the Helium atom}
  The goal of this project is to perform a monte carlo integration to calculate the expectation value of the Hamiltonian, i.e. the expectation value of the ground state energy for the Helium, Beryllium and Neon atom.  
  \begin{align}
  	\left< E \right> = \frac{\int d \mathbf{r_1} d \mathbf{r_2} \psi_T^*(r_1,r_2) \hat H \psi_T(r_1,r_2)}{\int d \mathbf{r_1} d \mathbf{r_2} \psi_T^*(r_1,r_2) \psi_T(r_1,r_2)}
@@ -78,7 +245,8 @@
  	\label{Helium2}
  \end{figure}
 
- \section*{Jastrow factor}
+\end{section}
+\begin{section}{Jastrow factor}
 
  We can get a better result by improving our trial wave function, $\Psi_T$. We can introduce a factor known as the Jastrow factor. 
  \begin{align*}
@@ -96,8 +264,194 @@
  	\label{Helium3}
  \end{figure}
 
+\end{section}
 
- \begin{section}{Analytical calculation of the local energy}
+
+\begin{section}{Importance Sampling}
+ Up until now we have used a brute force Metropolis algorithm with a fixed step length. I will now introduce Importance sampling, which takes the force acting on the particle into account.
+ \begin{align*}
+ 	\mathbf{F} = 2 \frac{1}{\Psi_T} \nabla \Psi_T	
+ \end{align*}
+ This foce can be calculated both numerically and analytically, where the analytical calculation is much faster. However, the analytical calculation does not give satisfactory results on atoms larger than Helium in my code, so I will use numerical differentiation when calculating on Beryllium and Neon. 
+
+ We can see from the plot below that using $dt = 10^-3$, we get stable results. A smaller $dt$ probably gives rise to different kinds of errors, like truncation errors etc. Using this dt, we get $-2.86462$ as the energy using code from Project1 with numerical differentiation. 
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/ImportanceSampling_Helium_dt.png}
+ \end{figure}
+
+\end{section}
+\begin{section}{Statistical Analysis}
+ A Monte Carlo simulation gives rise to two kinds of error. Systematic errors and statistical errors. Systematic errors are due to limitations of the applied models and faulty implementations. Here I will explore methods to estimate the statistical error. 
+
+ Given a set of local energies, the variance is a measure of the spread from the true mean. The definition is
+ \begin{align*}
+ 	\text{Var}(E) = \left< E^2 \right> - \left< E \right> ^2 
+ \end{align*}
+ Unfortunatly we do not know the true mean in a Monte-Carlo simulation. The computed average $\overline E$ is an approximation to the exact mean, and we do the following approximation
+ \begin{align*}
+ 	\text{Var}(E) \approx \overline{E^2} - \overline{E}^2 
+ \end{align*}
+ For the case where we have the exact wave function, the variance becomes $0$, so the variance is an excellent measure of how close we are to the exact wave function. The variance however is \textit{not} a direct measure of the error. The standard deviation, the square root of the variance is related of the \textit{spread} in the sampled value. 
+ \begin{align}
+ 	\sigma ^2(x) = \text{Var}(x)
+ 	\label{deviation}
+ \end{align}
+ This does not account for the samples being corrolated. Two samples, $x$ and $y$ are corrolated if the \textit{Covariance} is non-zero.
+ \begin{align*}
+ 	\text{Cov}(x,y) = \left< xy \right> - \left< x \right> \left<y \right> 
+ \end{align*}
+ The diagonal elements of the Covariance is the Variance. By ignoring the corrolations, one get an error estimate that is generally too small. Given the true deviation, $\sigma_e$ and $\sigma$ from (\ref{deviation}) we have
+ \begin{align*}
+ 	\sigma_c \geq \sigma
+ \end{align*}
+
+ The most interesting quantity when doing statistical analysis is not the error of single samples. It is the error of the mean value. One can show that the variance for the mean value, $m$ is 
+ \begin{align}
+ 	\sigma^2 (m) = \frac{1}{n} \text{Cov}(x)
+ 	\label{covariance}
+ \end{align}
+ Where n is the number of samples used to calculate $m$ and 
+ \begin{align*}
+ 	m = \frac{1}{n} \sum_i^n x_i
+ \end{align*}
+ Calculating the Covariance is an expensive process for a large sample set, so we need a better way to calculate this. 
+
+\end{section}
+\begin{section}{Blocking}
+ There is no need to do statistical analysis within the Monte-Carlo simulation. By storing the data set, one can estimate the error post process. An efficient algorithm for this is called blocking. 
+
+ Given a set of $N$ samples from a single Monte-Carlo process. This set is divided into $n$ blocks of size $n_b = N/n$. Now we can treat each block as an individual simulation to calculate the variance of a calculated mean, $m$. This will in turn give us the covariance by (\ref{covariance}).
+ \begin{align*}
+ 	\sigma^2 (m) = \left<m^2\right> - \left<m\right>^2 
+ \end{align*}
+
+ One can not know beforehand which block size is optimal to compute the exact error. One can, however, plot the variance against different block sizes. The curve should be stable over a span of block sizes. This plateau will serve as a reasonable approximation to the covariance. 
+
+\end{section}
+\begin{section}{One-body density}
+ The one-body density is defined as
+ \begin{align*}
+ 	\rho(r_1) = \int_{r_2} .. \int_{r_N} | \Phi(r_1 r_2 .. r_N) |^2 dr_2 .. dr_N
+ \end{align*}
+
+ The distribution $|\Phi(r)|^2$ describes the distribution of a particle in the system. The one-body density $\rho(r_1)$ describes the simultaneous distribution of every particle in the system. $\rho(r_1) dr_1 $ represents the probability of finding \textit{any} particle in the volume element $dr_1$ as oppsed to $|\Phi(r)|^2$ giving the probability of finding \textit{particle $r_1$} in the volume element $dr_1$. Due to the indistinguishable nature of the particles, any of the coordinates contain information about all the particles. I will therefore normalize this density to the number of particles $N$ and not $1$ which is common for the one-particle density. 
+
+ The way this is computed in a Monte Carlo simulation is by taking snapshots of all positions for every timestep, then constructing a histogram to construct an approximation to the wave function.
+
+ The charge density for a single particle is given by 
+ \begin{align*}
+ 	\rho_q (r) = q |\Psi(r)|^2
+ \end{align*}
+ However, since we already have computed the many-body probability density, we can use this instead to get the many-body charge density of the system. 
+ \begin{align*}
+ 	\rho_q (r) = Q \rho(r_1)
+ \end{align*}
+
+\end{section}
+\begin{section}{Generalizing wavefunction using Slater determinants}
+ Up until now, I have been operating with the trial WaveFunction $\Psi_D = e^{-\alpha(r_1 + r_2)}$. One can write a many-particle wavefunction as a Slater determinant. This way of writing is consistent with Pauli's principle. The determinant consists of single particle wave functions. In this project, the wave functions used are the hydrogen orbitals. 
+
+ \begin{align*}
+ 	\Psi_D = \frac{1}{\sqrt{(N!)}}\left| \begin{matrix}
+ 		\psi_1(r_1) & \psi_1(r_2) & ... & \psi_1(r_N) \\
+ 		\psi_2(r_1) & \psi_2(r_2) & ... & \psi_2(r_N) \\
+ 		... & & & ... \\
+ 		\psi_N(r_1) & \psi_N(r_2) & ... & \psi_N(r_N) 
+ 	\end{matrix} \right|
+ \end{align*}
+
+ Since we are looking at rations between wavefunctions, the factor in front does not matter. However the inverse of this matrix is zero, because the one-particle wavefunctions are equal for opposite spins. $\psi_{1s \uparrow}(r_1) = \psi_{1s\downarrow}(r_1)$. Because the Hamiltonian is spin-independent, we can factorize the determinant by writing the determinant as a product of a spin-up determinant and a spin-down determinant. The spin up determinant will consist of the firstt half of particles in up-spin states, the spin down will consist of the second half in down-spin states. For Beryllium, this will give
+
+ \begin{align*}
+ 	\Psi_D = \frac{1}{\sqrt{(N!)}}\left| \begin{matrix}
+ 		\psi_1(r_1) & \psi_1(r_2) \\
+ 		\psi_3(r_1) & \psi_3(r_2) \end{matrix} \right| \left| \begin{matrix} \psi_2(r_3) & \psi_2(r_4) \\ \psi_4(r_3) & \psi_4(r_4)
+ 	\end{matrix} \right|
+ \end{align*}
+
+ The program code in Project3 uses this approach for both Helium, Beryllium and Neon. 
+\end{section}
+\begin{section}{Steepest descent}
+ Up until now, I have used measurment by eye to find the optimal values for $\alpha$ and $\beta$. This can be done in a more precise way, namely using methods like steepest descent or Conjugate Gradient method. I have included the steepest descent method in my project.
+ If a function $F(x)$ is differentiable and in the neighborhood of a point $\mathbf{a}$, then the function $F(x)$ decreases fastest in the direction of the negative gradient, $-\nabla F(x)$. i.e. we are approaching a minima. Since the variational principle holds for $\left<\hat H\right> $, the best values for $\alpha$ and $\beta$ are the ones giving this minima. 
+ \begin{align*}
+ 	\mathbf{b} = \mathbf{a} - \gamma \nabla F(\mathbf{a}) 
+ \end{align*}
+ if $\gamma$ is small enough, $F(\mathbf{b}) \leq F(\mathbf{a})$. We can therefore set up the scheme
+ \begin{align*}
+ 	x_{n+1} = x_n - \gamma \nabla F(x_n)
+ \end{align*}
+ and continue until
+ \begin{align*}
+ 	x_{n+1} - x_n \leq \text{precision}
+ \end{align*}
+
+\end{section}
+\begin{section}{Final variational Monte-Carlo on Helium}
+ By excluding the Jastrow factor and the two-body potential in the local energy, one can test wether the Slater determinant is set up right. By setting $\alpha$ equal to the number of particles, one should get $\left< \hat H \right> = -4$. This can be reproduced, both with the analytical local energy, the numerical local energy, the numerical quantum force and the analytical quantum force. After doing these naive simulations, I include the Jastrow factor and the two-body potential. 
+
+ I have found the optimal parametres for calculating on Helium. I set $\alpha = 1.75$, $\beta = 0.3$, $\text{step} = 1.5$. These results are obtained using the code in Project1. This computation gave an energy of
+ \begin{align*}
+ 	E = -2.89207
+ \end{align*}
+ Which is pretty close to the best value $-2.903$. 
+
+ A plot of the probability density:
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensity.png}
+ \end{figure}
+ Since we only have the 1s-states, the density should be close in shape to the 1s-shape. This density will be more spread out when one take the electron-electron repulsion into account, because the repulsion can be seen as a reduction in the core's charge. 
+
+ By using the blocking analysis, the following plot shows how variance of the mean $E$-value changes when the block size changes. The y-axis shows the total error in the calculation. 
+ One see that the error is estimated to be around $0.29$. The spread seams to be pretty uniform and I conclude that the corrolation is low. 
+ \begin{figure}[H] 
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/HeliumBlocking.png}
+ \end{figure}
+
+ A short computation time comparison between the numerical and analytical gradients and Laplacians are found in the files, \textit{Helium\_CompareTime.txt}, \textit{Helium\_CompareTime\_ELnum.txt} and \textit{Helium\_CompareTime\_QFnum.txt}. All of them are done with Importance Sampling. 
+
+ We see that the results are about the same, but the time needed for the computation is $33$s for analytical, $52,3$s for the numerical local energy and finally $65.4$s for the numerical quantum force. 
+
+ For the final run on Helium with importance sampling and Steepest descent method, I set $\alpha = 1.75$ as I have seen that this alpha gave the lowest energy when the Jastrow factor was included. The steepest descent method stabilized at $\beta = 0.515163$. I used $10^7$ iterations for each core, so a total of $4 \cdot 10^7$ iterations in the calculation. This running is done with the Importance sampling method, so the only variational parameter that is not perfectly optimized is the value for $\alpha$. This can be fixed by including the Gaussian Orbitals which are a result of Hartree-Fock calculations. They do not have a parameter to be varied, and should for that reason give an optimal value. The result from this calculation is found in the file \textit{Helium\_final\_calculation.txt}. The result gained was
+ \begin{align*}
+ 	E = -2.88538
+ \end{align*}
+
+\end{section}
+\begin{section}{Variational Monte Carlo on Beryllium}
+ Using the code in project 3 to do calculations on Beryllium. First I search for a good value of $\alpha$, looping through 20 different $\alpha$'s from 3 to 4.
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/FindOptimalAlphaBeryllium.png}
+ \end{figure}
+ As seen in the figure, setting $\alpha = 3.65$ gives the lowest energy. A monte carlo integration with that alpha gives 
+ \begin{align*}
+ 	E = -14.4144
+ \end{align*}
+ with $10^6$ iterations per core. The result is in the file \textit{Beryllium\_MC.txt}. Following is the one-body density ploted along with a blocking analysis show that the error lies around $3.7$. 
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensityBeryllium.png}
+ 	\caption{A plot showing the one-body density in the x-direction for a particle in the Beryllium atom}
+ \end{figure}
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=\textwidth]{../python_programs/BerylliumBlocking.png}
+ \end{figure}
+
+
+ Unfortunatly the analytical computation of the quantum force does not give a satisfactory result when increasing particles above $2$, so the run with importance sampling is done with numerical differentiation. I did however not get as low energy with importance sampling as with the brute force Metropolis algorithm. The resulting energy for this computation was $E = -14.0801$. I plotted the one-body density for the brute force algorithm instead, because of a better calculation. The results from this calculation is found in \textit{Beryllium\_IS.txt}. 
+
+ Running without the Jastrow factor, I surprisingly got a result close to the calculation with the factor. The energy was $E = -14.3423$. This is with the potential energy due to the repulsion between the electrons. Removing this repulsion, I get $E = -20$, which is expected. The results are found in \textit{Beryllium\_withoutJastrow.txt} and \textit{Beryllium\_withoutJastrow2.txt}. 
+ 
+
+\end{section}
+
+\appendix
+\begin{section}{Analytical calculation of the local energy}\label{App:AppendixA}
  Calculating the kinetic energy numerically is costly. One can considerably reduce computational time by using a closed form expression for the energy. 
 
  We have trial wavefunction 
@@ -211,180 +565,4 @@
  More general expressions are used in the code in Project 3. 
  \end{section}
 
-\section*{Importance Sampling}
- Up until now we have used a brute force Metropolis algorithm with a fixed step length. I will now introduce Importance sampling, which takes the force acting on the particle into account.
- \begin{align*}
- 	\mathbf{F} = 2 \frac{1}{\Psi_T} \nabla \Psi_T	
- \end{align*}
- This foce can be calculated both numerically and analytically, where the analytical calculation is much faster. However, the analytical calculation does not give satisfactory results on atoms larger than Helium in my code, so I will use numerical differentiation when calculating on Beryllium and Neon. 
-
- We can see from the plot below that using $dt = 10^-3$, we get stable results. A smaller $dt$ probably gives rise to different kinds of errors, like truncation errors etc. Using this dt, we get $-2.86462$ as the energy using code from Project1 with numerical differentiation. 
- \begin{figure}[H] 
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/ImportanceSampling_Helium_dt.png}
- \end{figure}
-
-\section*{Statistical Analysis}
- A Monte Carlo simulation gives rise to two kinds of error. Systematic errors and statistical errors. Systematic errors are due to limitations of the applied models and faulty implementations. Here I will explore methods to estimate the statistical error. 
-
- Given a set of local energies, the variance is a measure of the spread from the true mean. The definition is
- \begin{align*}
- 	\text{Var}(E) = \left< E^2 \right> - \left< E \right> ^2 
- \end{align*}
- Unfortunatly we do not know the true mean in a Monte-Carlo simulation. The computed average $\overline E$ is an approximation to the exact mean, and we do the following approximation
- \begin{align*}
- 	\text{Var}(E) \approx \overline{E^2} - \overline{E}^2 
- \end{align*}
- For the case where we have the exact wave function, the variance becomes $0$, so the variance is an excellent measure of how close we are to the exact wave function. The variance however is \textit{not} a direct measure of the error. The standard deviation, the square root of the variance is related of the \textit{spread} in the sampled value. 
- \begin{align}
- 	\sigma ^2(x) = \text{Var}(x)
- 	\label{deviation}
- \end{align}
- This does not account for the samples being corrolated. Two samples, $x$ and $y$ are corrolated if the \textit{Covariance} is non-zero.
- \begin{align*}
- 	\text{Cov}(x,y) = \left< xy \right> - \left< x \right> \left<y \right> 
- \end{align*}
- The diagonal elements of the Covariance is the Variance. By ignoring the corrolations, one get an error estimate that is generally too small. Given the true deviation, $\sigma_e$ and $\sigma$ from (\ref{deviation}) we have
- \begin{align*}
- 	\sigma_c \geq \sigma
- \end{align*}
-
- The most interesting quantity when doing statistical analysis is not the error of single samples. It is the error of the mean value. One can show that the variance for the mean value, $m$ is 
- \begin{align}
- 	\sigma^2 (m) = \frac{1}{n} \text{Cov}(x)
- 	\label{covariance}
- \end{align}
- Where n is the number of samples used to calculate $m$ and 
- \begin{align*}
- 	m = \frac{1}{n} \sum_i^n x_i
- \end{align*}
- Calculating the Covariance is an expensive process for a large sample set, so we need a better way to calculate this. 
-
-\section*{Blocking}
- There is no need to do statistical analysis within the Monte-Carlo simulation. By storing the data set, one can estimate the error post process. An efficient algorithm for this is called blocking. 
-
- Given a set of $N$ samples from a single Monte-Carlo process. This set is divided into $n$ blocks of size $n_b = N/n$. Now we can treat each block as an individual simulation to calculate the variance of a calculated mean, $m$. This will in turn give us the covariance by (\ref{covariance}).
- \begin{align*}
- 	\sigma^2 (m) = \left<m^2\right> - \left<m\right>^2 
- \end{align*}
-
- One can not know beforehand which block size is optimal to compute the exact error. One can, however, plot the variance against different block sizes. The curve should be stable over a span of block sizes. This plateau will serve as a reasonable approximation to the covariance. 
-
-\section*{One-body density}
- The one-body density is defined as
- \begin{align*}
- 	\rho(r_1) = \int_{r_2} .. \int_{r_N} | \Phi(r_1 r_2 .. r_N) |^2 dr_2 .. dr_N
- \end{align*}
-
- The distribution $|\Phi(r)|^2$ describes the distribution of a particle in the system. The one-body density $\rho(r_1)$ describes the simultaneous distribution of every particle in the system. $\rho(r_1) dr_1 $ represents the probability of finding \textit{any} particle in the volume element $dr_1$ as oppsed to $|\Phi(r)|^2$ giving the probability of finding \textit{particle $r_1$} in the volume element $dr_1$. Due to the indistinguishable nature of the particles, any of the coordinates contain information about all the particles. I will therefore normalize this density to the number of particles $N$ and not $1$ which is common for the one-particle density. 
-
- The way this is computed in a Monte Carlo simulation is by taking snapshots of all positions for every timestep, then constructing a histogram to construct an approximation to the wave function.
-
- The charge density for a single particle is given by 
- \begin{align*}
- 	\rho_q (r) = q |\Psi(r)|^2
- \end{align*}
- However, since we already have computed the many-body probability density, we can use this instead to get the many-body charge density of the system. 
- \begin{align*}
- 	\rho_q (r) = Q \rho(r_1)
- \end{align*}
-
-\section*{Generalizing wavefunction using Slater determinants}
- Up until now, I have been operating with the trial WaveFunction $\Psi_D = e^{-\alpha(r_1 + r_2)}$. One can write a many-particle wavefunction as a Slater determinant. This way of writing is consistent with Pauli's principle. The determinant consists of single particle wave functions. In this project, the wave functions used are the hydrogen orbitals. 
-
- \begin{align*}
- 	\Psi_D = \frac{1}{\sqrt{(N!)}}\left| \begin{matrix}
- 		\psi_1(r_1) & \psi_1(r_2) & ... & \psi_1(r_N) \\
- 		\psi_2(r_1) & \psi_2(r_2) & ... & \psi_2(r_N) \\
- 		... & & & ... \\
- 		\psi_N(r_1) & \psi_N(r_2) & ... & \psi_N(r_N) 
- 	\end{matrix} \right|
- \end{align*}
-
- Since we are looking at rations between wavefunctions, the factor in front does not matter. However the inverse of this matrix is zero, because the one-particle wavefunctions are equal for opposite spins. $\psi_{1s \uparrow}(r_1) = \psi_{1s\downarrow}(r_1)$. Because the Hamiltonian is spin-independent, we can factorize the determinant by writing the determinant as a product of a spin-up determinant and a spin-down determinant. The spin up determinant will consist of the firstt half of particles in up-spin states, the spin down will consist of the second half in down-spin states. For Beryllium, this will give
-
- \begin{align*}
- 	\Psi_D = \frac{1}{\sqrt{(N!)}}\left| \begin{matrix}
- 		\psi_1(r_1) & \psi_1(r_2) \\
- 		\psi_3(r_1) & \psi_3(r_2) \end{matrix} \right| \left| \begin{matrix} \psi_2(r_3) & \psi_2(r_4) \\ \psi_4(r_3) & \psi_4(r_4)
- 	\end{matrix} \right|
- \end{align*}
-
- The program code in Project3 uses this approach for both Helium, Beryllium and Neon. 
-
-\section*{Steepest descent}
- Up until now, I have used measurment by eye to find the optimal values for $\alpha$ and $\beta$. This can be done in a more precise way, namely using methods like steepest descent or Conjugate Gradient method. I have included the steepest descent method in my project.
- If a function $F(x)$ is differentiable and in the neighborhood of a point $\mathbf{a}$, then the function $F(x)$ decreases fastest in the direction of the negative gradient, $-\nabla F(x)$. i.e. we are approaching a minima. Since the variational principle holds for $\left<\hat H\right> $, the best values for $\alpha$ and $\beta$ are the ones giving this minima. 
- \begin{align*}
- 	\mathbf{b} = \mathbf{a} - \gamma \nabla F(\mathbf{a}) 
- \end{align*}
- if $\gamma$ is small enough, $F(\mathbf{b}) \leq F(\mathbf{a})$. We can therefore set up the scheme
- \begin{align*}
- 	x_{n+1} = x_n - \gamma \nabla F(x_n)
- \end{align*}
- and continue until
- \begin{align*}
- 	x_{n+1} - x_n \leq \text{precision}
- \end{align*}
-
-\section*{Final variational Monte-Carlo on Helium}
- By excluding the Jastrow factor and the two-body potential in the local energy, one can test wether the Slater determinant is set up right. By setting $\alpha$ equal to the number of particles, one should get $\left< \hat H \right> = -4$. This can be reproduced, both with the analytical local energy, the numerical local energy, the numerical quantum force and the analytical quantum force. After doing these naive simulations, I include the Jastrow factor and the two-body potential. 
-
- I have found the optimal parametres for calculating on Helium. I set $\alpha = 1.75$, $\beta = 0.3$, $\text{step} = 1.5$. These results are obtained using the code in Project1. This computation gave an energy of
- \begin{align*}
- 	E = -2.89207
- \end{align*}
- Which is pretty close to the best value $-2.903$. 
-
- A plot of the probability density:
- \begin{figure}[H] 
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensity.png}
- \end{figure}
- Since we only have the 1s-states, the density should be close in shape to the 1s-shape. This density will be more spread out when one take the electron-electron repulsion into account, because the repulsion can be seen as a reduction in the core's charge. 
-
- By using the blocking analysis, the following plot shows how variance of the mean $E$-value changes when the block size changes. The y-axis shows the total error in the calculation. 
- One see that the error is estimated to be around $0.29$. The spread seams to be pretty uniform and I conclude that the corrolation is low. 
- \begin{figure}[H] 
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/HeliumBlocking.png}
- \end{figure}
-
- A short computation time comparison between the numerical and analytical gradients and Laplacians are found in the files, \textit{Helium\_CompareTime.txt}, \textit{Helium\_CompareTime\_ELnum.txt} and \textit{Helium\_CompareTime\_QFnum.txt}. All of them are done with Importance Sampling. 
-
- We see that the results are about the same, but the time needed for the computation is $33$s for analytical, $52,3$s for the numerical local energy and finally $65.4$s for the numerical quantum force. 
-
- For the final run on Helium with importance sampling and Steepest descent method, I set $\alpha = 1.75$ as I have seen that this alpha gave the lowest energy when the Jastrow factor was included. The steepest descent method stabilized at $\beta = 0.515163$. I used $10^7$ iterations for each core, so a total of $4 \cdot 10^7$ iterations in the calculation. This running is done with the Importance sampling method, so the only variational parameter that is not perfectly optimized is the value for $\alpha$. This can be fixed by including the Gaussian Orbitals which are a result of Hartree-Fock calculations. They do not have a parameter to be varied, and should for that reason give an optimal value. The result from this calculation is found in the file \textit{Helium\_final\_calculation.txt}. The result gained was
- \begin{align*}
- 	E = -2.88538
- \end{align*}
-
-\section*{Variational Monte Carlo on Beryllium}
- Using the code in project 3 to do calculations on Beryllium. First I search for a good value of $\alpha$, looping through 20 different $\alpha$'s from 3 to 4.
- \begin{figure}
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/FindOptimalAlphaBeryllium.png}
- \end{figure}
- As seen in the figure, setting $\alpha = 3.65$ gives the lowest energy. A monte carlo integration with that alpha gives 
- \begin{align*}
- 	E = -14.4144
- \end{align*}
- with $10^6$ iterations per core. The result is in the file \textit{Beryllium\_MC.txt}. Following is the one-body density ploted along with a blocking analysis show that the error lies around $3.7$. 
- \begin{figure}
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensityBeryllium.png}
- 	\caption{A plot showing the one-body density in the x-direction for a particle in the Beryllium atom}
- \end{figure}
- \begin{figure}
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/BerylliumBlocking.png}
- \end{figure}
-
-
- Unfortunatly the analytical computation of the quantum force does not give a satisfactory result when increasing particles above $2$, so the run with importance sampling is done with numerical differentiation. I did however not get as low energy with importance sampling as with the brute force Metropolis algorithm. The resulting energy for this computation was $E = -14.0801$. I plotted the one-body density for the brute force algorithm instead, because of a better calculation. The results from this calculation is found in \textit{Beryllium\_IS.txt}. 
-
- Running without the Jastrow factor, I surprisingly got a result close to the calculation with the factor. The energy was $E = -14.3423$. This is with the potential energy due to the repulsion between the electrons. Removing this repulsion, I get $E = -20$, which is expected. The results are found in \textit{Beryllium\_withoutJastrow.txt} and \textit{Beryllium\_withoutJastrow2.txt}. 
- 
-
-
- \end{document}
+\end{document}

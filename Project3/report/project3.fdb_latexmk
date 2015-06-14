@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1432671373 "project3.tex" "/home/wilhelm/Repos/fys4411/Project3/report/project3.pdf" "project3" 1432671374
+["pdflatex"] 1434321365 "project3.tex" "/home/wilhelm/Repos/fys4411/Project3/report/project3.pdf" "project3" 1434321366
   "../python_programs/BerylliumBlocking.png" 1432669514 38889 e95ce3e6ebb6c4ef60833852ba2f1997 ""
   "../python_programs/EnergyVariance_helium1.png" 1428523820 40823 9c8408ddd54948a87dcacbe2aad667a5 ""
   "../python_programs/EnergyVariance_helium2.png" 1428523866 40574 e02733e353e2620fbe9ebf1463952e26 ""
@@ -9,7 +9,7 @@
   "../python_programs/ImportanceSampling_Helium_dt.png" 1428422961 26166 b03a84aeae305b7808762ebd6d8bdb8c ""
   "../python_programs/ProbabilityDensity.png" 1428607110 31760 38b794b96a4013be535a0a3640bf9f55 ""
   "../python_programs/ProbabilityDensityBeryllium.png" 1432669298 26209 7753a76290e2449cd6461f79acc0a351 ""
-  "/home/wilhelm/Repos/fys4411/Project3/report/project3.aux" 1432671374 478 8af9558912b43b758c7e993bea3eb930 ""
+  "/home/wilhelm/Repos/fys4411/Project3/report/project3.aux" 1434321366 2723 a6d820bf70fa4f610368a5b78b5a17ad ""
   "/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii" 1337017135 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty" 1284331290 1458 43ab4710dc82f3edeabecd0d099626b2 ""
   "/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty" 1335995445 24460 92f559a71aac869021852c227c704b38 ""
@@ -88,9 +88,12 @@
   "/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty" 1424169028 10002 a0be2e7e424269a324a1fe0bef571d9f ""
   "/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty" 1424169028 7052 fac8c3b541ee104f7f49d30661393644 ""
   "/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1403829539 4961 d3900e3f4756248d8d0ccedc0016c2eb ""
-  "project3.aux" 1432671374 478 8af9558912b43b758c7e993bea3eb930 ""
-  "project3.tex" 1432671373 23733 7658f3f82e737ee43cd5ea7b1ddef812 ""
+  "orbitals.pdf" 1434315347 5861 158b9b96aaac0c59fb88e48d127bae53 ""
+  "project3.aux" 1434321366 2723 a6d820bf70fa4f610368a5b78b5a17ad ""
+  "project3.tex" 1434321363 33551 a399946e75c639c08d5ab5a605826fd1 ""
+  "project3.toc" 1434321366 1718 273a181abb457c8b58e80949d19dfb10 ""
   (generated)
   "project3.aux"
-  "/home/wilhelm/Repos/fys4411/Project3/report/project3.pdf"
   "/home/wilhelm/Repos/fys4411/Project3/report/project3.log"
+  "/home/wilhelm/Repos/fys4411/Project3/report/project3.pdf"
+  "project3.toc"

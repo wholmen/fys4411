@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.4.29)  26 MAY 2015 22:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.4.29)  15 JUN 2015 00:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1112,134 +1112,154 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
 (Font)              scaled to size 17.28pt on input line 38.
 
-<../python_programs/EnergyVariance_helium1.png, id=7, 578.16pt x 433.62pt>
+(/home/wilhelm/Repos/fys4411/Project3/report/project3.toc
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 12.0pt on input line 1.
+)
+\tf@toc=\write3
+\openout3 = `project3.toc'.
+
+ [1]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 14.4pt on input line 42.
+ [2]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 8.0pt on input line 120.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
+(Font)              scaled to size 6.0pt on input line 120.
+ [3]
+<orbitals.pdf, id=24, 404.02913pt x 159.33542pt>
+File: orbitals.pdf Graphic file (type pdf)
+ <use orbitals.pdf>
+Package pdftex.def Info: orbitals.pdf used on input line 140.
+(pdftex.def)             Requested size: 404.02812pt x 159.335pt.
+ [4 </home/wilhelm/Repos/fys4411/Project3/report/orbitals.pdf>] [5]
+<../python_programs/EnergyVariance_helium1.png, id=41, 578.16pt x 433.62pt>
 File: ../python_programs/EnergyVariance_helium1.png Graphic file (type png)
 
 <use ../python_programs/EnergyVariance_helium1.png>
 Package pdftex.def Info: ../python_programs/EnergyVariance_helium1.png used on 
-input line 69.
+input line 236.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [1]
-<../python_programs/EnergyVariance_helium2.png, id=24, 578.16pt x 433.62pt>
+ [6]
+<../python_programs/EnergyVariance_helium2.png, id=50, 578.16pt x 433.62pt>
 File: ../python_programs/EnergyVariance_helium2.png Graphic file (type png)
 
 <use ../python_programs/EnergyVariance_helium2.png>
 Package pdftex.def Info: ../python_programs/EnergyVariance_helium2.png used on 
-input line 77.
+input line 244.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [2 <../python_programs/EnergyVariance_helium1.png>]
-<../python_programs/EnergyVariance_helium5.png, id=29, 578.16pt x 433.62pt>
+ [7 <../python_programs/EnergyVariance_helium1.png>]
+<../python_programs/EnergyVariance_helium5.png, id=55, 578.16pt x 433.62pt>
 File: ../python_programs/EnergyVariance_helium5.png Graphic file (type png)
 
 <use ../python_programs/EnergyVariance_helium5.png>
 Package pdftex.def Info: ../python_programs/EnergyVariance_helium5.png used on 
-input line 95.
+input line 263.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [3 <../python_programs/EnergyVariance_helium2.png>] [4 <../python_programs/Ene
-rgyVariance_helium5.png>]
-[5]
-Overfull \hbox (17.5788pt too wide) in paragraph at lines 209--209
-[] 
- []
-
-
-<../python_programs/ImportanceSampling_Helium_dt.png, id=42, 578.16pt x 433.62p
+ [8 <../python_programs/EnergyVariance_helium2.png>]
+<../python_programs/ImportanceSampling_Helium_dt.png, id=60, 578.16pt x 433.62p
 t>
 File: ../python_programs/ImportanceSampling_Helium_dt.png Graphic file (type pn
 g)
  <use ../python_programs/ImportanceSampling_Helium_dt.png>
 Package pdftex.def Info: ../python_programs/ImportanceSampling_Helium_dt.png us
-ed on input line 224.
+ed on input line 280.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [6]
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 233.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 233.
+ [9 <../python_programs/EnergyVariance_helium5.png>]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 238.
- [7 <../python_programs/ImportanceSampling_Helium_dt.png>] [8] [9]
-<../python_programs/ProbabilityDensity.png, id=58, 578.16pt x 433.62pt>
+(Font)              scaled to size 12.0pt on input line 295.
+ [10 <../python_programs/ImportanceSampling_Helium_dt.png>] [11]
+Overfull \hbox (20.46306pt too wide) in paragraph at lines 352--352
+ |[]\T1/LinuxLibertineT-TLF/b/n/17.28 Generalizing wave-func-tion us-ing Slater
+ de-ter-mi-nants| 
+ []
+
+[12] <../python_programs/ProbabilityDensity.png, id=77, 578.16pt x 433.62pt>
 File: ../python_programs/ProbabilityDensity.png Graphic file (type png)
 
 <use ../python_programs/ProbabilityDensity.png>
 Package pdftex.def Info: ../python_programs/ProbabilityDensity.png used on inpu
-t line 342.
+t line 403.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [10]
-<../python_programs/HeliumBlocking.png, id=62, 578.16pt x 433.62pt>
+ [13 <../python_programs/ProbabilityDensity.png>]
+<../python_programs/HeliumBlocking.png, id=82, 578.16pt x 433.62pt>
 File: ../python_programs/HeliumBlocking.png Graphic file (type png)
 
 <use ../python_programs/HeliumBlocking.png>
 Package pdftex.def Info: ../python_programs/HeliumBlocking.png used on input li
-ne 350.
+ne 411.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [11 <../python_programs/ProbabilityDensity.png>]
-Overfull \hbox (39.57532pt too wide) in paragraph at lines 353--354
+
+Overfull \hbox (39.57532pt too wide) in paragraph at lines 414--415
 \T1/LinuxLibertineT-TLF/m/n/12 and Lapla-cians are found in the files, \T1/Linu
 xLibertineT-TLF/m/it/12 He-lium_CompareTime.txt\T1/LinuxLibertineT-TLF/m/n/12 ,
  \T1/LinuxLibertineT-TLF/m/it/12 He-lium_CompareTime_ELnum.txt
  []
 
 
-<../python_programs/FindOptimalAlphaBeryllium.png, id=67, 578.16pt x 433.62pt>
+<../python_programs/FindOptimalAlphaBeryllium.png, id=83, 578.16pt x 433.62pt>
 File: ../python_programs/FindOptimalAlphaBeryllium.png Graphic file (type png)
 
 <use ../python_programs/FindOptimalAlphaBeryllium.png>
 Package pdftex.def Info: ../python_programs/FindOptimalAlphaBeryllium.png used 
-on input line 366.
+on input line 428.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
-
-<../python_programs/ProbabilityDensityBeryllium.png, id=68, 578.16pt x 433.62pt
+ [14 <../python_programs/HeliumBlocking.png>]
+<../python_programs/ProbabilityDensityBeryllium.png, id=88, 578.16pt x 433.62pt
 >
 File: ../python_programs/ProbabilityDensityBeryllium.png Graphic file (type png
 )
  <use ../python_programs/ProbabilityDensityBeryllium.png>
 Package pdftex.def Info: ../python_programs/ProbabilityDensityBeryllium.png use
-d on input line 375.
+d on input line 437.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
 
-<../python_programs/BerylliumBlocking.png, id=69, 578.16pt x 433.62pt>
+<../python_programs/BerylliumBlocking.png, id=89, 578.16pt x 433.62pt>
 File: ../python_programs/BerylliumBlocking.png Graphic file (type png)
 
 <use ../python_programs/BerylliumBlocking.png>
 Package pdftex.def Info: ../python_programs/BerylliumBlocking.png used on input
- line 380.
+ line 442.
 (pdftex.def)             Requested size: 426.79135pt x 320.09303pt.
- [12 <../python_programs/HeliumBlocking.png>] [13 <../python_programs/FindOptim
-alAlphaBeryllium.png>] [14 <../python_programs/ProbabilityDensityBeryllium.png>
- <../python_programs/BerylliumBlocking.png>] (/home/wilhelm/Repos/fys4411/Proje
-ct3/report/project3.aux) ) 
+ [15 <../python_programs/FindOptimalAlphaBeryllium.png>] [16 <../python_program
+s/ProbabilityDensityBeryllium.png> <../python_programs/BerylliumBlocking.png>] 
+[17]
+Overfull \hbox (17.5788pt too wide) in paragraph at lines 563--563
+[] 
+ []
+
+[18] [19] (/home/wilhelm/Repos/fys4411/Project3/report/project3.aux) ) 
 Here is how much of TeX's memory you used:
- 14408 strings out of 493105
- 288431 string characters out of 6137072
- 303603 words of memory out of 5000000
- 17661 multiletter control sequences out of 15000+600000
- 56411 words of font info for 72 fonts, out of 8000000 for 9000
+ 14428 strings out of 493105
+ 288868 string characters out of 6137072
+ 305622 words of memory out of 5000000
+ 17675 multiletter control sequences out of 15000+600000
+ 66921 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,13n,39p,10447b,510s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libert
-ine/lbtn_7grukw.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lb
-tn_nh77jq.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_76g
-pa5.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertin
-eT.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertine
-TB.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/libertine/LinLibertine
-TI.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.
-pfb>
-Output written on project3.pdf (15 pages, 643378 bytes).
+ 38i,14n,39p,10447b,595s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/sha
+re/texlive/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/usr/share/tex
+live/texmf-dist/fonts/enc/dvips/libertine/lbtn_nh77jq.enc}{/usr/share/texlive/t
+exmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}</usr/share/texlive/texmf-d
+ist/fonts/type1/public/libertine/LinLibertineT.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/libertine/LinLibertineTB.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/libertine/LinLibertineTI.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on project3.pdf (20 pages, 647449 bytes).
 PDF statistics:
- 135 PDF objects out of 1000 (max. 8388607)
- 84 compressed objects within 1 object stream
+ 161 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
