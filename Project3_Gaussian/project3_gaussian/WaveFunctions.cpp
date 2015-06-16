@@ -89,7 +89,7 @@ void WaveFunctions::UpdateInverseQF(bool Move){
 }
 
 void WaveFunctions::QuantumForce(mat R, mat &Qforce){
-    bool Analytical = true;
+    bool Analytical = false;
 
     if (Analytical){
         rowvec detpart, Jastrow, rij;

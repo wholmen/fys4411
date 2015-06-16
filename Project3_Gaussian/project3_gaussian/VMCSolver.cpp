@@ -2,10 +2,10 @@
 
 void VMCSolver::FindStepLength(double b){
     step = 1.3;
-    MCintegration_FindVariables(15000, b);
-    while (AcceptRate > 0.501 or AcceptRate < 0.499){
+    MCintegration_FindVariables(1500, b);
+    while (AcceptRate > 0.51 or AcceptRate < 0.49){
         step += 0.01;
-        MCintegration_FindVariables(1000, b);
+        MCintegration_FindVariables(1500, b);
         if (step > 2.5){break;}
     }
     cout << "Steplength found: " << step << endl;
@@ -74,7 +74,6 @@ void VMCSolver::MCintegration(vec &Cycle_Energy, vec &Cycle_Energy2, int ncycle,
     mat Rnew = zeros<mat>(Nparticles,Ndimensions);
     mat Rold = zeros<mat>(Nparticles,Ndimensions);
 
-    //for (int ncycle = 0; ncycle < Ncycles; ncycle ++){
     double PsiNew(0), PsiOld(0), Elocal(0), Etotal(0), Esquared(0);
     int e(0);
 
@@ -88,7 +87,7 @@ void VMCSolver::MCintegration(vec &Cycle_Energy, vec &Cycle_Energy2, int ncycle,
     Rnew = Rold;
     cout << "System Initialized." << endl;
 
-    // Total loop for all the cycles
+    // Total loop for all the iterations
     for (int n=0; n<Niterations; n++){
         PsiOld = atom.WaveFunction(Rold, false);
 
@@ -113,13 +112,12 @@ void VMCSolver::MCintegration(vec &Cycle_Energy, vec &Cycle_Energy2, int ncycle,
             Elocal = (AnalyticalEnergy == true) ? LocalEnergyAnalytical(Rnew) : LocalEnergy(Rnew);
             Etotal += Elocal;
             Esquared += Elocal * Elocal;
-            //if (ncycle == Ncycles-1){ AllEnergies(e) = Elocal; for (int p=0; p<Nparticles; p++) {AllPositions(e,p) = Rnew(p,0);} e++; }
+            if (ncycle == Ncycles-1){ AllEnergies(e) = Elocal; for (int p=0; p<Nparticles; p++) {AllPositions(e,p) = sqrt(dot(Rnew.row(p),Rnew.row(p)));} e++; }
         }
     }
     Energy = Etotal / (Niterations * Nparticles);
     Esquared = Esquared / (Niterations * Nparticles);
-
-    //Cycle_Energy(ncycle) = Energy; Cycle_Energy2(ncycle) = Esquared;
+    Cycle_Energy(ncycle) = Energy; Cycle_Energy2(ncycle) = Esquared;
 }
 
 void VMCSolver::ImportanceSampling(vec &Cycle_Energy, vec &Cycle_Energy2, int ncycle, vec &AllEnergies, mat &AllPositions, int Ncycles, int Niterations, double b, double DT){
@@ -131,7 +129,6 @@ void VMCSolver::ImportanceSampling(vec &Cycle_Energy, vec &Cycle_Energy2, int nc
 
     atom.beta = b; // Changing beta according to the Steepest descent method.
     int e(0);
-    //for (int ncycle=0; ncycle<Ncycles; ncycle++){
     for (int i=0; i<Nparticles; i++) for (int j=0; j<Ndimensions; j++) Rold(i,j) = GaussianDeviate(&idum) * sqrt(dt);
 
     atom.Initialize_System(Rold);
@@ -180,12 +177,12 @@ void VMCSolver::ImportanceSampling(vec &Cycle_Energy, vec &Cycle_Energy2, int nc
             Etotal += Elocal;
 
             Esquared += Elocal * Elocal;
-            //if (ncycle == Ncycles-1) {AllEnergies(e) = Elocal; for (int p=0; p<Nparticles; p++) {AllPositions(e,p) = Rnew(p,0);} e++;}
+            if (ncycle == Ncycles-1) {AllEnergies(e) = Elocal; for (int p=0; p<Nparticles; p++) {AllPositions(e,p) = sqrt(dot(Rnew.row(p),Rnew.row(p)));} e++;}
         }
     }
     Energy = Etotal / (Niterations * Nparticles);
     Esquared = Esquared / (Niterations * Nparticles);
-    //Cycle_Energy(ncycle) = Energy; Cycle_Energy2(ncycle) = Esquared;
+    Cycle_Energy(ncycle) = Energy; Cycle_Energy2(ncycle) = Esquared;
 }
 
 double VMCSolver::LocalEnergy(mat r){

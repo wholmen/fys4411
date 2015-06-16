@@ -10,11 +10,11 @@ MAKEFILE      = Makefile
 
 ####### Compiler, tools and options
 
-CC            = gcc
-CXX           = g++
+CC            = mpicc
+CXX           = mpicxx
 DEFINES       = 
-CFLAGS        = -m64 -pipe -g -Wall -W -fPIE $(DEFINES)
-CXXFLAGS      = -m64 -pipe -g -Wall -W -fPIE $(DEFINES)
+CFLAGS        = -m64 -pipe -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi -pthread -g -Wall -W -fPIE $(DEFINES)
+CXXFLAGS      = -m64 -pipe -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi -pthread -DMPICH_IGNORE_CXX_SEEK -g -Wall -W -fPIE $(DEFINES)
 INCPATH       = -I../project3_gaussian -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -34,8 +34,8 @@ TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = project3_gaussian1.0.0
 DISTDIR = /home/wilhelm/Repos/fys4411/Project3_Gaussian/project3_gaussian/.tmp/project3_gaussian1.0.0
-LINK          = g++
-LFLAGS        = -m64
+LINK          = mpicxx
+LFLAGS        = -m64 -pthread -L/usr//lib -L/usr/lib/openmpi/lib -lmpi_cxx -lmpi -ldl -lhwloc
 LIBS          = $(SUBLIBS) -larmadillo -lblas -llapack 
 AR            = ar cqs
 RANLIB        = 
