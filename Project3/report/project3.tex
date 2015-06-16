@@ -27,7 +27,6 @@
  \geometry{top=20mm, bottom=20mm, left=30mm, right=30mm} % Marger i mm. Total bredde er 210mm
 
 
-
 \author{Wilhelm Holmen}
 \title{FYS4411 Project 3}
 
@@ -45,8 +44,17 @@
 
 \begin{section}{Introduction}
  In this project I first give a brief introduction to some of the important parts of quantum mechanics. I will introduce the hydrogen-like wavefunctions, and the form of the Hamiltonian for larger atoms. I will also comment on the variational principle and the Hatree-Fock method. \par
- An important part of the variational monte carlo algorithm is choosing a good trial wave function. As explained in the section on variational principle, we will find the best approximation to the ground state energy by finding the best approximation to the wavefunction. In this section I will introduce the Slater determinant form on the wavefunction, the Padé-Jastrow factor and the final form of my wavefunctions. I will also give a brief introduction to the Gaussian type orbitals I have used. 
+ An important part of the variational monte carlo algorithm is choosing a good trial wave function. As explained in the section on variational principle, we will find the best approximation to the ground state energy by finding the best approximation to the wavefunction. In this section I will introduce the Slater determinant form on the wavefunction, the Padé-Jastrow factor and the final form of my wavefunctions. I will also give a brief introduction to the Gaussian type orbitals I have used. \par
+ In section 4 I will delve deeper into the theory behind the calculation of the $E_{gs}$. I will look at the variational monte carlo method, the Metropolis algorithm and importance sampling. Section 5 will outline a few of the algorithms I have used. In section 6 I present the results of the project. 
 \end{section}
+
+
+
+
+
+
+
+
 
 \begin{section}{Quantum mechanics}
  The goal of this project is to calculate the ground state energy for three different atoms. The Helium atom, the Beryllium atom and the Neon atom. The energy in a quantum mechanical system is found by solving the time-independent Schrodinger equation for the system. 
@@ -112,7 +120,38 @@
  \end{subsection}
 
  \begin{subsection}{Hartree-Fock calculations}
- 	
+ 	I will not do any Hartree-Fock calculations in this project, but I will use results from other calculations found online in the 3-21G basis set. I will outline the concept of Hartree-Fock calculations. 
+
+	When doing a Hartree-Fock calculation, we approximate the wavefunction with one Slater Determinant. 
+ 	\begin{align*}
+ 		\left| \Psi \right> \approx \left| \Phi \right>
+ 	\end{align*}
+ 	And calculate the energy
+ 	\begin{align*}
+ 		E[\Phi] = \left< \Phi \middle| \hat H \middle| \Phi \right> 
+ 	\end{align*}
+ 	From the variational principle, we know that this energy will always be higher than the exact ground state energy. 
+ 	\begin{align*}
+ 		E[\Phi] \geq E_{exact}^0
+ 	\end{align*}
+ 	We wish to minimize $E[\psi]$. This will be done by finding a better wavefunction. We expand our initial wavefunction in another basis
+ 	\begin{align*}
+ 		\left| \phi_p \right> = \sum_\lambda C_{p \lambda} \phi_ \lambda
+ 	\end{align*}
+ 	Where $span\{\phi_ \lambda\}$ is a known basis. By varying $C_{p \lambda}$, we hope to found the new basis function as close to the exact wavefunction as possible. We write the energy functional as 
+ 	\begin{align*}
+ 		E[\Phi] = \sum_p^N \left< p \middle| h \middle| p \right> + \frac{1}{2} \sum_{pq}^N \left< p q \middle|\middle| p q \right>_{AS}
+ 	\end{align*}
+ 	Doing the unitary basis transformation, we get 
+ 	\begin{align*}
+ 		E[\Phi] = \sum_p^N \sum_{\alpha \beta } C_{p \alpha}^* C_{p \beta} \left< \alpha \middle| h \middle| \beta \right> + 
+ 		\frac{1}{2} \sum_{pq}^N \sum_{\alpha \beta \gamma \delta } C_{p \alpha}^* C_{q \beta}^* C_{q \gamma} C_{q \delta} \left< \alpha \beta \middle|\middle| \gamma \delta \right> 	
+ 	\end{align*}
+ 	To find the minima, we differentiate by $C_{p \alpha} ^*$ and get
+ 	\begin{align*}
+ 		&\sum_ \gamma h_ {\alpha \gamma}^{HF} C_{p \gamma} = \epsilon_p C_{p \alpha} \\
+ 		&h_{ \alpha \gamma} ^{HF} = \left< \alpha \middle| h \middle| \gamma \right> + \sum_q^N \sum_{ \beta \delta } C_{q \beta}^* C_ {q \delta} \left< \alpha \beta \middle| v \middle| \gamma \delta \right> 
+ 	\end{align*}
  \end{subsection}
 
 \end{section}
@@ -235,10 +274,54 @@
  \end{subsection}
 
  \begin{subsection}{Gaussian type orbitals}
-  Trying and testing for the best $\alpha$ is a crude and unprecise way of finding the optimal parameter. A better method to find the optimal wavefunction is by using a Hartree-Fock calculation. I have not done this in the project, but I have used the results from other calculations and implemented them. I have implemented this in addition to changing from the hydrogen orbitals to Gaussian type orbitals. This 
+  Trying and testing for the best $\alpha$ is a crude and unprecise way of finding the optimal parameter. A better method to find the optimal wavefunction is by using a Hartree-Fock calculation. This has been done by someone else, and I have been given the results from dr. Morten Hjorth-Jensen by email. Remember from from the section on Hartree-Fock that we want to expand the wavefunction in a known basis 
+  \begin{align*}
+ 		\left| \phi_p \right> = \sum_\lambda C_{p \lambda} \phi_ \lambda
+ 	\end{align*}
+  And the weights $C_{p \lambda}$ determine wether this is a good approximation or not. The known basis I have used are the GTO and the weights are from the 3-21G basis set. 
 
+  The Gaussian type orbitals are on the form
+  \begin{align}
+  	G_{ijk}(a,\vec r) = \left( \frac{2a}{\pi}	\right)^{3/4} \left[ \frac{(8a)^{i+j+k} i! j! k! }{(2i)!(2j)!(2k)!} \right] x^i y^j z^k exp(-a r^2)
+  \end{align}
+  Unfortunatly this does not behave nicely because it does not have the proper exponential decay. We can form a linear combination of them, as we have done in in project two. The main reason why GTO's are a good choice for the basis, is the simplicity when multiplying two different functions. 
+  \begin{align}
+  	\Xi^{CGTO}(\vec r,i,j,k) = \sum_{p=1}^L d_p G_{ijk}(a_p, \vec r)
+  \end{align}
+  For Helium this will look like 
+  	\begin{align}
+  	 \Psi_{He} = K_1 c_1 N_{000} e^{-\alpha_1 r^2} + K_2 \left( c_2 N_{100} e^{-\alpha_2 r^2} + c_3 N_{100} e^{-\alpha_3 r^2} \right)
+  	\end{align}
+  	where 
+  	\begin{align}
+  		N_{ijk} = \left( \frac{2a}{\pi}	\right)^{3/4} \left[ \frac{(4a)^{i+j+k} }{(2i-1)!!(2j-1)!!(2k-1)!!} \right] x^i y^j z^k 
+  	\end{align}
+
+  And for Beryllium and Neon this will look like
+	\begin{align}
+	\psi_{Be}&=
+	K_{1}\biggl(c_{1}N_{0,0,0}e^{-\alpha_{1}r^{2}}+c_{2}N_{0,0,0}e^{-\alpha_{2}r^{2}}+c_{3}N_{0,0,0}e^{-\alpha_{3}r^{2}}\biggl)\\
+	&+K_{2}\biggl(c_{4}N_{0,0,0}e^{-\alpha_{4}r^{2}}+c_{5}N_{0,0,0}e^{-\alpha_{5}r^{2}}\biggl)
+	+K_{3}\biggl(c_{6}N_{0,0,0}e^{-\alpha_{6}r^{2}}\biggl)\\
+	&+K_{4}\biggl(c_{7}N_{1,0,0}e^{-\alpha_{7}r^{2}}+c_{8}N_{1,0,0}e^{-\alpha_{8}r^{2}}\biggl)
+	+K_{5}\biggl(c_{9}N_{1,0,0}e^{-\alpha_{9}r^{2}}\biggl)\\
+	&+K_{6}\biggl(c_{7}N_{0,1,0}e^{-\alpha_{7}r^{2}}+c_{8}N_{0,1,0}e^{-\alpha_{8}r^{2}}\biggl)
+	+K_{7}\biggl(c_{9}N_{0,1,0}e^{-\alpha_{9}r^{2}}\biggl)\\
+	&+K_{8}\biggl(c_{7}N_{0,0,1}e^{-\alpha_{7}r^{2}}+c_{8}N_{0,0,1}e^{-\alpha_{8}r^{2}}\biggl)
+	+K_{9}\biggl(c_{9}N_{0,0,1}e^{-\alpha_{9}r^{2}}\biggl)
+	\end{align}
+  For Beryllium and Neon I get more than one of each of the $K_i's$. This is because each row in the split Slater determinant needs it's own $K_i$. 
  \end{subsection}
 \end{section}
+\newpage
+
+
+
+
+
+
+
+
 
 \begin{section}{Variational Monte Carlo method}
    et teori avsnitt hvor du skriver kort om hva slags teorielement du har brukt (variasjonell MC, statistisk analyse med blocking, gradient metoder og soeking etter minima og mer), deretter
@@ -287,12 +370,43 @@
  	\begin{align}
  		A_{j \to i} = min\left( 1, \frac{p_i T_{i\to j}}{p_j T_{j\to i}} \right)
  	\end{align}
+ 	The factor 
+ 	\begin{align}
+ 		\frac{p_i T_{i\to j}}{p_j T_{j\to i}} = \frac{|\Psi_T(R_{new})|^2}{\Psi_T(R_{old})|^2}
+ 	\end{align}
+
  	This will make sure that we integrate over the positions multiplied with the corresponding probability distribution, $P(\mathbf{R})$. 
+
 
  \end{subsection}
 
  \begin{subsection}{Importance sampling}
- 	
+ 	The metropolis algorithm is a brute force implementation of the probability distribution. We can replace it with a walk in coordinate space biased by the trial wave function. That is a walk influenced by the forces acting on the particle. 
+ 	For a diffusion process characterized by a time-dependent probability density $P(x,t)$ the Fokker-Planck equation reads
+ 	\begin{align}
+ 		\frac{\partial P}{\partial t} = D \frac{\partial }{\partial x} \left( \frac{\partial}{\partial x} - F \right) P(x,t)
+ 	\end{align}
+ 	We use Euler's method to find solutions to this problem. The new position reads
+ 	\begin{align}
+ 		y = x + DF(x) \Delta t + \xi \sqrt(\Delta t)
+ 	\end{align}
+ 	where $\xi$ is a random variable and $\Delta t$ is a chosen time step. I will investigate which time steps give stable results. $D = \frac{1}{2}$ because of the factor in the kinetic energy operator. \par
+ 	The force is calculated by
+ 	\begin{align}
+ 		\mathbf{F} = 2 \frac{1}{\Psi_T}\nabla \Psi_T 
+ 	\end{align}
+ 	The transition probability must be changed aswell. the general Metropolis algorithm reads
+ 	\begin{align}
+ 		A_{y,x} = min \left(1, q(y,x) \right)
+ 	\end{align}
+ 	but now we replace $q(y,x) = \frac{|\Psi_T(R_{new})|^2}{\Psi_T(R_{old})|^2}$ with
+ 	\begin{align}
+ 		q(y,x) = \frac{G(x,y,\Delta t)|\Psi_T(y)|^2}{G(y,x,\Delta t)|\Psi_T(x)|^2}
+ 	\end{align}
+ 	where we have introduced the Green's function
+ 	\begin{align}
+ 		G(y,x,\Delta t) \propto exp(-(y-x-D\Delta t F(x))^2 / 4D\Delta t)
+ 	\end{align}
  \end{subsection}
 
  \begin{subsection}{Statistical analysis}
@@ -360,13 +474,7 @@
  \end{align*}
  \end{subsection}
 
-\end{section}
-
-\begin{section}{implementation}
-  * et implementasjon kapittel hvor du forteller hvordan du har implementert teorien, skriv om algo for SD, algo for Jastrow faktor, hvordan blocking er implementert samt testen du har brukt for aa verifisere koden. Her boer du baade diskutere hvordan du har testa analytisk lokal energi kontra numerisk derivasjon, liste cpu tidsbesparelse samt andre tester du har gjort, feks analytisk SD for beryllium kontra algoritmen for beryllium osv. Du trenger ikke liste heile koden her, det kan du legge til appendiks. 
-
-
-  \begin{subsection}{Method of steepest descent}
+ \begin{subsection}{Method of steepest descent}
   	Up until now, I have used measurment by eye to find the optimal values for $\alpha$ and $\beta$. This can be done in a more precise way, namely using methods like steepest descent or Conjugate Gradient method. I have included the steepest descent method in my project.
  If a function $F(x)$ is differentiable and in the neighborhood of a point $\mathbf{a}$, then the function $F(x)$ decreases fastest in the direction of the negative gradient, $-\nabla F(x)$. i.e. we are approaching a minima. Since the variational principle holds for $\left<\hat H\right> $, the best values for $\alpha$ and $\beta$ are the ones giving this minima. 
  \begin{align*}
@@ -382,16 +490,83 @@
  \end{align*}
   \end{subsection}
 
+\end{section}
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{section}{Implementation}
+  * et implementasjon kapittel hvor du forteller hvordan du har implementert teorien, skriv om algo for SD, algo for Jastrow faktor, hvordan blocking er implementert samt testen du har brukt for aa verifisere koden. Her boer du baade diskutere hvordan du har testa analytisk lokal energi kontra numerisk derivasjon, liste cpu tidsbesparelse samt andre tester du har gjort, feks analytisk SD for beryllium kontra algoritmen for beryllium osv. Du trenger ikke liste heile koden her, det kan du legge til appendiks. 
+
+  The general algorithm which is implemented for the variational monte carlo simulation goes as
+
+
+ \begin{subsection}{Slater determinant}
+ 	The way I have implemented the Slater determinant is by having two smaller determinants for spin up and spin down. That means I only need to update one of the determinants when after accepting a move. When I calculate the local energy and quantum force, I will need the inverse of the determinatn. This is a costly operation, so instead of computing the inverse for every time-step, we can use the following algorithm to update inverse matrix elements for each step. 
+ 	\begin{align}
+ 		d_{kj}^{-1}(\mathbf{x^{new}}) = \left\{
+	\begin{array}{ll}
+		d_{kj}^{-1}(\mathbf{x}^{old}) - \frac{d_{kj}^{-1}(\mathbf{x}^{old})}{R} \sum_{l=1}^N d_{il}(\mathbf{x}^{new})d_{il}^{-1}(\mathbf{x}^{old})  & \mbox{if } j \neq i \\
+		\frac{d_{kj}^{-1}(\mathbf{x}^{old})}{R} \sum_{l=1}^N d_{il}(\mathbf{x}^{old})d_{il}^{-1}(\mathbf{x}^{old}) & \mbox{if } j = i
+	\end{array}
+	\right.
+ 	\end{align}
+ 	This can save some computation time. 
+ \end{subsection}
+
+ \begin{subsection}{Closed form expression for local energy and quantum force}
+ 	See appendix A for derivation of the closed form expression for Helium. On the general form we have the closed form expression
+ 	\begin{align}
+ 		\frac{\nabla^2 \Psi}{\Psi} = \frac{\nabla^2_i|\hat D(\mathbf{r})|}{|\hat D(\mathbf{r})|} + \frac{\nabla^2 \Psi_C}{\Psi_C} + 2 \frac{\nabla_i|\hat D(\mathbf{r})|}{|\hat D(\mathbf{r})|} \cdot \frac{\nabla_k \Psi_C}{\Psi_C}
+ 	\end{align}
+ 	When we calculate the gradient and Laplacian we use the following formulas
+ 	\begin{align}
+ 		\frac{\nabla_i|\hat D(\mathbf{r})|}{|\hat D(\mathbf{r})|} &= \sum_{j=1}^N \nabla_i d_{ij}(\mathbf{r})d_{ji}^{-1} \\
+ 		\frac{\nabla^2_i|\hat D(\mathbf{r})|}{|\hat D(\mathbf{r})|} &= \sum_{j=1}^N \nabla^2_i d_{ij}(\mathbf{r})d_{ji}^{-1} 
+ 	\end{align}
+ 	And the following are used for the Jastrow factor
+ 	\begin{align*}
+ 		\frac{\nabla_k \Psi_C}{\Psi_C} = &\sum_{j\neq k} \frac{\mathbf{r}_{kj}}{r_{kj}} \frac{a}{(1+\beta r_{kj})^2}
+ 		\frac{\nabla_k^2 \Psi_C}{\Psi_C} = \sum_{ij \neq k} \frac{(\mathbf{r}_k - \mathbf{r}_i) \cdot (\mathbf{r}_k - \mathbf{r}_j)}{r_{ki}r_{kj}} \frac{a}{(1+\beta r_ki)^2} \frac{a}{(1+\beta r_kj)^2} \\ + &\sum_{j\neq k} \left( \frac{2a}{r_{kj}(1+\beta r_{kj})^2} - \frac{2a \beta}{(1 + \beta r_{kj}})^3 \right)
+ 	\end{align*}
+ \end{subsection}
 
  \begin{subsection}{Finding optimal step length}
- 	
+  In the Metropolis algorithm without importance sampling, we need a steplength. An optimal step length has an acceptance rate around $50\%$, so I measured how many moves were accepted and calculated the mean value. If the amount of accepted moves were too far from $50\%$, I changed the step length and ran the code again. This is found in the function \textit{void VMCSolver::MCintegration\_FindVariables}. 
+  This is the same code that was used to find the optimal $\beta$ in the Steepest descent method. 
  \end{subsection}
 	
- \begin{subsection}{Performance optimizations}
-  	
+ \begin{subsection}{Parallell programming}
+  One of the most powerfull optimization tools is parallell programming. We can run one parallell thread on each core, and can with $4$ cores on my computer use $4$ times as many time steps. Variational monte carlo is easy to parallellize. We can make each core do $N$ samples with a specified random seed, and take the mean of each result. \par
+  I use the function \textit{MPI\_Reduce} to gather all the calculated information into one of the processors. Then that processor will calculate means, variance and write the result out to file. 
+ \end{subsection}
+
+ \begin{subsection}{Problems when implementing the code}
+  There have been a few problems with this code. I did not get everything to work proberly for Neon and Beryllium. For Helium everything works as intended. I get the exact same result using the closed form expressions for local energy and quantum force as I do when I use the numerically calculated values. For Beryllium, the closed form expressions for energy gives almost the same result, but the Quantum force crashed completely with the closed form expression. As for Neon, only the numerical calculations gives anything close to the expected values. I have, when looking at the results for Neon og Beryllium, used numerically calculated energies.
+
+  There are a few problems with the method of steepest descent as well. For Helium it seems to converge towards a reasonable $\beta$, but for Beryllium and Neon, the difference in energy due to a change in $\beta$ is so small that the method does not manage to converge against the optimal value. It merely stays put if I give it a reasonably initial guess. 
  \end{subsection}
 
 \end{section}
+ \newpage
+
+
+
+
+
+
+
+
 
 \begin{section}{Results and discussion}
 
@@ -405,6 +580,7 @@
  	\centering
  	\includegraphics[width=0.8\textwidth]{../python_programs/EnergyVariance_helium1.png}
  	\label{Helium1}
+ 	\caption{A plot of the ground state energy for Helium for as a function of different $\alpha$ values. This has been calculated with Jastrow factor, Hydrogen-like orbitals and Steepest descent to find $\beta$. The corresponding variance has been included in the plot. }
  \end{figure}
 
  By looking closer at the energy and variance around $\alpha = 1.68$ in figure (\ref{Helium2}), we see that we get an energy of $\left<E\right> = -2.84997$, with a variance of $\sigma ^2 = 0.932912$. This is too far off from the best experimental value of $E_{experimental} = -2.903$. We see however that the variance is smaller for $\alpha = 1.8$, $1.9$ and $1.6$. But by the variational principle, we want as low energy as possible, so we choose the best $\alpha$ as $1.68$. 
@@ -413,6 +589,7 @@
  	\centering
  	\includegraphics[width=0.8\textwidth]{../python_programs/EnergyVariance_helium2.png}
  	\label{Helium2}
+	\caption{A closer look at which $\alpha$'s give the lowest $E_{gs}$}
  \end{figure}
 
  We now use Importance sampling in our calculations to look at which dt's are stable. 
@@ -420,6 +597,7 @@
  \begin{figure}[H] 
  	\centering
  	\includegraphics[width=0.8\textwidth]{../python_programs/ImportanceSampling_Helium_dt.png}
+ 	\caption{Shows a plot of the ground state energy calculated with importance sampling for different values of $\Delta t$. We see that we get stable values around $10^{-1}$ and $10^{-3}$. }
  \end{figure}
 
  We can also look at the effect of including the Jastrow factor. In the plot below, we see that we get noticably lower energies; Around $E = -2.89207$ for the optimal values of $\alpha$ and $\beta$. This plot does a poor job of representing which $\beta$ is optimal, but from now on, I will use the Steepest descent method to find the best $\beta$, so I will not use measurment by eyes to determine the beta. The best value I found in this plot was $\beta = 0.3$. 
@@ -427,73 +605,145 @@
  	\centering
  	\includegraphics[width=0.8\textwidth]{../python_programs/EnergyVariance_helium5.png}
  	\label{Helium3}
+ 	\caption{Plotting energy as a function of $\alpha$ by testing some different $\beta$ values for each $\alpha$}
  \end{figure}
 
  \end{subsection}
  \begin{subsection}{The Helium atom}
  	By excluding the Jastrow factor and the two-body potential in the local energy, one can test wether the Slater determinant is set up right. By setting $\alpha$ equal to the number of particles, one should get $E_0 = -4$. This can be reproduced, both with the analytical local energy, the numerical local energy, the numerical quantum force and the analytical quantum force. After doing these naive simulations, I include the Jastrow factor and the two-body potential. I will also use the method of steepest descent to find the optimal beta. This code runs in parallell and it is run using Importance sampling. The first results are produced without the Gaussian type orbitals. 
 
-    \begin{figure}
- 	\centering
- 	\includegraphics[width=0.8\textwidth]{../python_programs/ProbabilityDensity.png}
-    \end{figure}
-	 Since we only have the 1s-states, the density should be close in shape to the 1s-shape. This density will be more spread out when one take the electron-electron repulsion into account, because the repulsion can be seen as a reduction in the core's charge. 
-
-	 By using the blocking analysis, the following plot shows how variance of the mean $E$-value changes when the block size changes. The y-axis shows the total error in the calculation. 
-	 One see that the error is estimated to be around $0.29$. The spread seams to be pretty uniform and I conclude that the corrolation is low. 
-	 \begin{figure}[H] 
-	 	\centering
-	 	\includegraphics[width=0.8\textwidth]{../python_programs/HeliumBlocking.png}
-	 \end{figure}
-
 	 A short computation time comparison between the numerical and analytical gradients and Laplacians are found in the files, \textit{Helium\_CompareTime.txt}, \textit{Helium\_CompareTime\_ELnum.txt} and \textit{Helium\_CompareTime\_QFnum.txt}. All of them are done with Importance Sampling. 
 
 	 We see that the results are about the same, but the time needed for the computation is $33$s for analytical, $52,3$s for the numerical local energy and finally $65.4$s for the numerical quantum force. 
 
-	 For the final run on Helium with importance sampling and Steepest descent method, I set $\alpha = 1.75$ as I have seen that this alpha gave the lowest energy when the Jastrow factor was included. The steepest descent method stabilized at $\beta = 0.515163$. I used $10^7$ iterations for each core, so a total of $4 \cdot 10^7$ iterations in the calculation. This running is done with the Importance sampling method, so the only variational parameter that is not perfectly optimized is the value for $\alpha$. This can be fixed by including the Gaussian Orbitals which are a result of Hartree-Fock calculations. They do not have a parameter to be varied, and should for that reason give an optimal value. The result from this calculation is found in the file \textit{Helium\_final\_calculation.txt}. The result gained was
+	 For the final run on Helium with importance sampling and Steepest descent method using Hydrogen-like orbitals, I set $\alpha = 1.75$ as I have seen that this alpha gave the lowest energy when the Jastrow factor was included. The steepest descent method stabilized at $\beta = 0.515163$. I used $10^7$ iterations for each core, so a total of $4 \cdot 10^7$ iterations in the calculation. This running is done with the Importance sampling method, so the only variational parameter that is not perfectly optimized is the value for $\alpha$. This can be fixed by including the Gaussian Orbitals which are a result of Hartree-Fock calculations. They do not have a parameter to be varied, and should for that reason give an optimal value. The result from this calculation is found in the file \textit{Helium\_final\_calculation.txt}. The result gained was
 	 \begin{align*}
 	 	E = -2.88538
 	 \end{align*}
-   	
-    As the final calculation, I run the code in Project3\_Gaussian to do the calculations with Gaussian type orbitals. 
+
+    Switching from Hydrogen-like orbitals to Gaussian type orbitals, I run the code in Project3\_Gaussian. This has been run with and without the Jastrow factor, but with importance sampling and steepest descent to find $\beta$. The results can be displayed in the following table
+    
+	\begin{center}
+	  \begin{tabular}{ l | c | c | c | r }
+	    $\beta$ & $E_{vmc}$ & $E_{vmc,JF}$ & $E_{exact}$ & \text{variance w/JF} \\ \hline
+	    $0.313749$ & $-2.79024$ & $-2.85517$ & $-2.90037$ & 4.11203 \\ 
+	    \hline
+	  \end{tabular}
+	\end{center}
+	We see from this table that the correction from Jastrow factor is really important for Helium. We can make a plot of the radial distribution for the cases with and without the Jastrow factor. 
+	
+	\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{../../Project3_Gaussian/python_scripts/ProbabilityDensityHelium_Jastrow.png}
+ 	\label{fig1}
+ 	\caption{Shows the probability of finding an atom a radius $r$ away from the nucleus. This is with the Jastrow factor}
+ 	\end{figure}
+ 	\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{../../Project3_Gaussian/python_scripts/ProbabilityDensityHelium_noJastrow.png}
+ 	\caption{Shows the probability of finding an atom a radius $r$ away from the nucleus. This is without the Jastrow factor, and compared to (\ref{fig1}), we see that the electrons are closer to the nucleus without the electron-electron repulsion taken into account.}
+ 	\end{figure}
+ 	We see that the electrons are further from the core if we take the Jastrow factor into account. A plot of the the blocking analysis show
+ 	\begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{../../Project3_Gaussian/python_scripts/HeliumBlocking.png}
+ 	\caption{Shows the variance as a function of samples in a block. We can read of the error where the function has stabilized. Around $4.1$. However the values in this plot is probably wrong, because one would expect much smaller error.}
+ 	\end{figure}
+ 	Unfortunatly this plot suggests that I have not managed to calculate the variance correctly for the different block-sizes. I would expect the variance to be much smaller. 
+
+
  \end{subsection}
  \begin{subsection}{The Beryllium atom}
- 	Using the code in project 3 to do calculations on Beryllium. First I search for a good value of $\alpha$, looping through 20 different $\alpha$'s from 3 to 4.
- \begin{figure}
+ 	Removing the repulsion from the potential energy, I get $E = -20$, which is expected. Adding the repulsion and Jastrow factor, I have did a variational Monte Carlo for Helium with hydrogen-like orbitals. 
+ 	Using the code in project 3 to do calculations on Beryllium I search for a good value of $\alpha$. Looping through 20 different $\alpha$'s from 3 to 4.
+ \begin{figure}[H]
  	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/FindOptimalAlphaBeryllium.png}
+ 	\includegraphics[width=0.8\textwidth]{../python_programs/FindOptimalAlphaBeryllium.png}
+ 	\caption{A plot of the ground state energy for Beryllium for as a function of different $\alpha$ values. This has been calculated with Jastrow factor, Hydrogen-like orbitals and Steepest descent to find $\beta$}
  \end{figure}
  As seen in the figure, setting $\alpha = 3.65$ gives the lowest energy. A monte carlo integration with that alpha gives 
  \begin{align*}
  	E = -14.4144
  \end{align*}
- with $10^6$ iterations per core. The result is in the file \textit{Beryllium\_MC.txt}. Following is the one-body density ploted along with a blocking analysis show that the error lies around $3.7$. 
- \begin{figure}
+ with $10^6$ iterations per core. The result is in the file \textit{Beryllium\_MC.txt}. 
+
+ Switching to Gaussian type orbitals to produce the final results, I produce the results
+ \begin{center}
+	  \begin{tabular}{ l | c | c | c | r }
+	    $\beta$ & $E_{vmc}$ & $E_{vmc,JF}$ & $E_{exact}$ & \text{variance w/JF} \\ \hline
+	    $0.6$ & $-14.5338$ & $-14.3394$ & $-14.667$ & 33.0956 \\ 
+	    \hline
+ \end{tabular} 
+ \end{center}
+ Surprisingly I get better results without the Jastrow factor for Beryllium. A plot of the radial distribution of particles for Beryllium 
+
+ \begin{figure}[H]
  	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/ProbabilityDensityBeryllium.png}
- 	\caption{A plot showing the one-body density in the x-direction for a particle in the Beryllium atom}
- \end{figure}
- \begin{figure}
- 	\centering
- 	\includegraphics[width=\textwidth]{../python_programs/BerylliumBlocking.png}
+ 	\includegraphics[width=0.8\textwidth]{../../Project3_Gaussian/python_scripts/ProbabilityDensityBeryllium_Jastrow.png}
+ 	\caption{Shows the probability of finding an atom a radius $r$ away from the nucleus. This is with the Jastrow factor. Notice that we see the 2s-orbitals as the second \textit{bump}}
  \end{figure}
 
-
- Unfortunatly the analytical computation of the quantum force does not give a satisfactory result when increasing particles above $2$, so the run with importance sampling is done with numerical differentiation. I did however not get as low energy with importance sampling as with the brute force Metropolis algorithm. The resulting energy for this computation was $E = -14.0801$. I plotted the one-body density for the brute force algorithm instead, because of a better calculation. The results from this calculation is found in \textit{Beryllium\_IS.txt}. 
-
- Running without the Jastrow factor, I surprisingly got a result close to the calculation with the factor. The energy was $E = -14.3423$. This is with the potential energy due to the repulsion between the electrons. Removing this repulsion, I get $E = -20$, which is expected. The results are found in \textit{Beryllium\_withoutJastrow.txt} and \textit{Beryllium\_withoutJastrow2.txt}. 
  \end{subsection}
 
  \begin{subsection}{The Neon atom}
- 	
+  First I have made a plot of the energy as a function of $\alpha$. This plot is made with the Jastrow factor and with Hydrogen orbitals. 
+  \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{../python_programs/FindOptimalAlphaNeon.png}
+ 	\caption{A plot of the ground state energy of Neon for as a function of different $\alpha$ values. This has been calculated with Jastrow factor, Hydrogen-like orbitals and Steepest descent to find $\beta$}
+ \end{figure}
+ We see that an $\alpha$ close to $8.25$ gives an energy very close to the experimental value of $-128.94$.
+
+ Introducing Gaussian-type orbitals we get the results 
+ \begin{center}
+	  \begin{tabular}{ l | c | c | c | r }
+	    $\beta$ & $E_{vmc}$ & $E_{vmc,JF}$ & $E_{exact}$ & \text{variance w/JF} \\ \hline
+	    $0.6$ & $-124.875$ & $-124.875$ & $-128.94$ & 349.915 \\ 
+	    \hline
+ \end{tabular} 
+ \end{center}
+ As with the Helium and Beryllium atoms, I plot the probability density and I see that the particles are spread more evenly out, with most of them occupying the 2p-states furthest away from the center. 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.8\textwidth]{../../Project3_Gaussian/python_scripts/ProbabilityDensityNeon_Jastrow.png}
+ 	\caption{Shows the probability of finding an atom a radius $r$ away from the nucleus. This is with the Jastrow factor. Here the particles are starting to spread very evenly out. The plot could be nicer close to $r=0$ with more samples.}
+ \end{figure}
  \end{subsection}
-
-
 \end{section}
+\newpage
 
 
+
+
+
+
+
+
+\begin{section}{Conclusion}
+ This has been a very interesting project. I have looked closely at different methods of finding the ground state energy for different atoms. The \textit{brute force} method of using hydrogen-like orbitals without a Jastrow factor did actually produce relatively good approximations. For chemistry, we require a much better approximation to the energy, and we introduced the Jastrow factor to achieve this. I do, however, not believe that this correction is enough to look at chemical properties of the atoms, so there are probably even better methods one can use. I saw also that the Jastrow factor was most important for the smaller atoms. \par
+ Introducing the GTO's instead of Hydrogen-like orbitals, the point was to fix the variational parameter in the Slater determinant. I did however not get as good results for these basis functions. I do not know why. I did not manage to find an error in the implementation, and the results for Neon shows that my code cannot be terribly wrong. \par
+ There are some small details that I never managed to implement properly. As stated earlier, the program worked perfectly for Helium, but some small problems came around for Beryllium and Neon. As well as a problem with the blocking analysis. This really bugs me, but I do no longer have time to fix this properly. This is the largest code I have written, and it grew in every direction as I wanted to add a new feature. This made it harder and harder to fully comprehend what was going on. This is probably a valuable lesson I will be grateful for in the future. Maybe. \par
+ Overall I have enjoyed the course even though it has been the most demanding course I have taken. 
+\end{section}
+ 
+ \begin{section}{Sources}
+  \begin{itemize}
+  	\item Lecture Notes from FYS4411 2015
+  	\item Håvard Tveit Ihle's project from 2013
+  	\item Jørgen Høgberget Master Thesis
+  	\item I have cooperated with Alexander Fleischer and Daniel Bjørnstad on some small matters
+  \end{itemize}
+ \end{section}
 
 \newpage
+
+
+
+
+
+
+
+
 
 \appendix
 \begin{section}{Appendix A}

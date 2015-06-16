@@ -27,16 +27,12 @@ void WaveFunctions::Initialize_System(mat r){
             }
         }
     }
-    // for (int i=0; i<10; i++){ cout << particles[i].n << particles[i].l << particles[i].ml << particles[i].ms << endl; }
     // Computing the Slater matrix using the list above. Splitting determinant into Dup and Ddown
     FactorizeDeterminant(Dup,Ddown,r,0);
 
-    for (int i=0; i<10; i++) { cout << particles[i].l; }
-
-    cout << 1;
     DinvUp = inv(Dup); DinvDown = inv(Ddown);
     DinvUpQF = DinvUp; DinvDownQF = DinvDown;
-    cout << 2;
+
 }
 
 double WaveFunctions::WaveFunction(mat r, bool DifferentiateBeta){
@@ -145,12 +141,13 @@ void WaveFunctions::QuantumForce(mat r, mat &Qforce){
 
 void WaveFunctions::FactorizeDeterminant(mat &SDup, mat &SDdown, mat R, int d){
     int e, i, y, j;
+
     for (e=0, i=0; i<Nparticles; i++){
         for (j=0; j<Np2; j++){
             if (particles[i].ms != 0) continue;
-            if (d==0) SDup(e,j) = particles[i].psi(length(R.row(j)));
-            if (d==1) SDup(e,j) = particles[i].dpsi(length(R.row(j)));
-            if (d==2) SDup(e,j) = particles[i].d2psi(length(R.row(j)));
+            if (d==0) SDup(e,j) = particles[i].psi(length(R.row(j)),R.row(j));
+            if (d==1) SDup(e,j) = particles[i].dpsi(length(R.row(j)),R.row(j));
+            if (d==2) SDup(e,j) = particles[i].d2psi(length(R.row(j)),R.row(j));
             if (j == Np2 - 1) e++; // increasing index in Dup
         }
     }
@@ -158,9 +155,9 @@ void WaveFunctions::FactorizeDeterminant(mat &SDup, mat &SDdown, mat R, int d){
         for (j=0; j<Np2; j++){
             if (particles[i].ms != 1) continue;
             y = j + Np2;
-            if (d==0) SDdown(e,j) = particles[i].psi(length(R.row(y)));
-            if (d==1) SDdown(e,j) = particles[i].dpsi(length(R.row(y)));
-            if (d==2) SDdown(e,j) = particles[i].d2psi(length(R.row(y)));
+            if (d==0) SDdown(e,j) = particles[i].psi(length(R.row(y)),R.row(y));
+            if (d==1) SDdown(e,j) = particles[i].dpsi(length(R.row(y)),R.row(y));
+            if (d==2) SDdown(e,j) = particles[i].d2psi(length(R.row(y)),R.row(y));
             if (j == Np2 -1) e++;
         }
     }

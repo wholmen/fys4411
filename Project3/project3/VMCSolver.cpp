@@ -1,13 +1,14 @@
 #include <VMCSolver.h>
 
 void VMCSolver::FindStepLength(double b, double a){
-    step = 0.2;
+    step = 1.2;
     MCintegration_FindVariables(100, b, a);
-    while (AcceptRate > 0.51 or AcceptRate < 0.49){
+    while (AcceptRate > 0.55 or AcceptRate < 0.45){
         step += 0.05;
         MCintegration_FindVariables(100, b, a);
-        if (step > 2.5){break;}
+        if (step > 1.3){break;}
     }
+    cout << "step found: " << step << endl;
 }
 void VMCSolver::MCintegration_FindVariables(int Niterations, double b, double a){
     // A function meant to be used when doing steepest descent and when finding steplength
@@ -29,6 +30,7 @@ void VMCSolver::MCintegration_FindVariables(int Niterations, double b, double a)
     }
     if (not HFBasis) atom.Initialize_System(Rold);
     Rnew = Rold;
+
 
     for (int n=0; n<Niterations; n++){
         PsiOld = (HFBasis) ? atom2.WaveFunction(Rold) : atom.WaveFunction(Rold, false);

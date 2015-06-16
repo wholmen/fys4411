@@ -22,7 +22,7 @@ def density(x):
 	savefig('ProbabilityDensityBeryllium.png')
 	show()
 
-def readfile(filename,energy,x0,x1,x2,x3):
+def readfile(filename,energy,x0,x1,x2=0,x3=0):
 
 	infile0 = open(filename,'r')
 	n0,nall = infile0.readline().split();
@@ -31,8 +31,8 @@ def readfile(filename,energy,x0,x1,x2,x3):
 		energy.append(float(splitline[0]))
 		x0.append(float(splitline[1]))
 		x1.append(float(splitline[2]))
-		x2.append(float(splitline[3]))
-		x3.append(float(splitline[4]))
+		if x2!= 0: x2.append(float(splitline[3]))
+		if x3!= 0: x3.append(float(splitline[4]))
 	return energy, x0,x1,x2,x3
 
 def blocking(e,e2):
@@ -70,7 +70,7 @@ def blocking(e,e2):
 	savefig('BerylliumBlocking.png')
 	show()
 
-
+"""
 energy = []; x0 = []; x1 = []; x2 = []; x3 = []
 energy, x0,x1,x2,x3 = readfile('../build-project3-Desktop-Debug/Beryllium_my_rank_0.txt',energy,x0,x1,x2,x3)
 energy, x0,x1,x2,x3 = readfile('../build-project3-Desktop-Debug/Beryllium_my_rank_1.txt',energy,x0,x1,x2,x3)
@@ -87,10 +87,21 @@ density(x0)
 
 energy = array(energy)
 blocking(energy,energy*energy)
+"""
+energy = []; r0 = []; r1 = []; 
+energy, r0,r1 = readfile('../build-project3_gaussian-Desktop-Debug/Helium_my_rank_0.txt',energy,r0,r1)
+energy, r0,r1 = readfile('../build-project3_gaussian-Desktop-Debug/Helium_my_rank_1.txt',energy,r0,r1)
+energy, r0,r1 = readfile('../build-project3_gaussian-Desktop-Debug/Helium_my_rank_2.txt',energy,r0,r1)
+energy, r0,r1 = readfile('../build-project3_gaussian-Desktop-Debug/Helium_my_rank_3.txt',energy,r0,r1)
 
+x0 = array(x0); x1 = array(x1); x2 = array(x2); x3 = array(x3)
+density(x0)
+
+energy = array(energy)
+blocking(energy,energy*energy)
 
 # Finding optimal alpha for Beryllium.
-
+"""
 infile = open('../build-project3-Desktop-Debug/Beryllium_CompareAlpha.txt','r')
 E = []; alpha = []; Error = []
 for line in infile:
@@ -110,3 +121,27 @@ xlabel('alpha')
 ylabel('Energy')
 savefig('FindOptimalAlphaBeryllium.png')
 show()
+"""
+
+"""
+# FInding optimal alpha for Neon
+infile = open('../build-project3-Desktop-Debug/Neon_findalpha.txt','r')
+E = []; alpha = []; Error = []
+for line in infile:
+	splitline = line.split()
+	if len(splitline) != 0:
+		if splitline[0] == 'Alpha:':
+			alpha.append(float(splitline[1])); 
+		if splitline[0] == 'Energy:':
+			E.append(float(splitline[1]))
+		if splitline[0] == 'Error:':
+			Error.append(float(splitline[1]))
+
+alpha = array(alpha); E = array(E)
+plot(alpha,E)
+title('Energy of Neon plotted against alpha')
+xlabel('alpha')
+ylabel('Energy')
+savefig('FindOptimalAlphaNeon.png')
+show()
+"""

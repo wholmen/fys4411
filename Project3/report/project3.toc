@@ -1,28 +1,33 @@
 \contentsline {section}{\numberline {1}Introduction}{2}
 \contentsline {section}{\numberline {2}Quantum mechanics}{2}
-\contentsline {subsection}{\numberline {2.1}The Hydrogen atom}{2}
-\contentsline {subsection}{\numberline {2.2}The Helium atom}{3}
+\contentsline {subsection}{\numberline {2.1}The Hydrogen atom}{3}
+\contentsline {subsection}{\numberline {2.2}The Helium atom}{4}
 \contentsline {subsection}{\numberline {2.3}The variational principle}{4}
 \contentsline {subsection}{\numberline {2.4}Hartree-Fock calculations}{4}
-\contentsline {section}{\numberline {3}The trial wavefunction}{5}
-\contentsline {subsection}{\numberline {3.1}The Slater determinant}{5}
-\contentsline {subsection}{\numberline {3.2}Hydrogen orbitals}{6}
-\contentsline {subsection}{\numberline {3.3}The Jastrow factor}{7}
-\contentsline {subsection}{\numberline {3.4}Implemented wavefunctions}{7}
-\contentsline {subsection}{\numberline {3.5}Gaussian type orbitals}{7}
-\contentsline {section}{\numberline {4}Variational Monte Carlo method}{8}
-\contentsline {subsection}{\numberline {4.1}Metropolis algorithm}{8}
-\contentsline {subsection}{\numberline {4.2}Importance sampling}{9}
-\contentsline {subsection}{\numberline {4.3}Statistical analysis}{9}
-\contentsline {subsection}{\numberline {4.4}One-body density}{10}
-\contentsline {section}{\numberline {5}implementation}{11}
-\contentsline {subsection}{\numberline {5.1}Method of steepest descent}{11}
-\contentsline {subsection}{\numberline {5.2}Finding optimal step length}{11}
-\contentsline {subsection}{\numberline {5.3}Performance optimizations}{11}
-\contentsline {section}{\numberline {6}Results and discussion}{11}
-\contentsline {subsection}{\numberline {6.1}First look at Helium atom}{11}
-\contentsline {subsection}{\numberline {6.2}The Helium atom}{13}
-\contentsline {subsection}{\numberline {6.3}The Beryllium atom}{15}
-\contentsline {subsection}{\numberline {6.4}The Neon atom}{16}
-\contentsline {section}{\numberline {A}Appendix A}{17}
-\contentsline {subsection}{\numberline {A.1}Analytical calculation of the local energy}{17}
+\contentsline {section}{\numberline {3}The trial wavefunction}{6}
+\contentsline {subsection}{\numberline {3.1}The Slater determinant}{6}
+\contentsline {subsection}{\numberline {3.2}Hydrogen orbitals}{7}
+\contentsline {subsection}{\numberline {3.3}The Jastrow factor}{8}
+\contentsline {subsection}{\numberline {3.4}Implemented wavefunctions}{8}
+\contentsline {subsection}{\numberline {3.5}Gaussian type orbitals}{8}
+\contentsline {section}{\numberline {4}Variational Monte Carlo method}{10}
+\contentsline {subsection}{\numberline {4.1}Metropolis algorithm}{10}
+\contentsline {subsection}{\numberline {4.2}Importance sampling}{11}
+\contentsline {subsection}{\numberline {4.3}Statistical analysis}{12}
+\contentsline {subsection}{\numberline {4.4}One-body density}{13}
+\contentsline {subsection}{\numberline {4.5}Method of steepest descent}{13}
+\contentsline {section}{\numberline {5}Implementation}{15}
+\contentsline {subsection}{\numberline {5.1}Slater determinant}{15}
+\contentsline {subsection}{\numberline {5.2}Closed form expression for local energy and quantum force}{15}
+\contentsline {subsection}{\numberline {5.3}Finding optimal step length}{16}
+\contentsline {subsection}{\numberline {5.4}Parallell programming}{16}
+\contentsline {subsection}{\numberline {5.5}Problems when implementing the code}{16}
+\contentsline {section}{\numberline {6}Results and discussion}{17}
+\contentsline {subsection}{\numberline {6.1}First look at Helium atom}{17}
+\contentsline {subsection}{\numberline {6.2}The Helium atom}{19}
+\contentsline {subsection}{\numberline {6.3}The Beryllium atom}{22}
+\contentsline {subsection}{\numberline {6.4}The Neon atom}{23}
+\contentsline {section}{\numberline {7}Conclusion}{25}
+\contentsline {section}{\numberline {8}Sources}{25}
+\contentsline {section}{\numberline {A}Appendix A}{26}
+\contentsline {subsection}{\numberline {A.1}Analytical calculation of the local energy}{26}
